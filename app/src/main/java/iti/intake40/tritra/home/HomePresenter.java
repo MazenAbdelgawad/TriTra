@@ -14,7 +14,7 @@ public class HomePresenter implements HomeContract.PresenterInterface {
     public HomePresenter(HomeContract.ViewInterface viewInterface) {
         this.viewInterface = viewInterface;
 
-        //Dumy data this comr from db
+        //Dumy data this come from db
         tripsList = new ArrayList<>();
         for (int i =0; i < 6; i++){
             TripModel trip = new TripModel("Trip ("+i+") ","One Way Trip","ITI - Ismailia",
@@ -32,4 +32,18 @@ public class HomePresenter implements HomeContract.PresenterInterface {
             viewInterface.displayNoTrips();
         }
     }
+
+    @Override
+    public void editTrip(int pos) {
+        //ToDO: Edit Trip
+        viewInterface.displayMessage("Done Edit"+tripsList.get(pos).getName());
+    }
+
+    @Override
+    public void deleteTrip(int pos) {
+        //ToDO: Delete Trip
+        viewInterface.displayMessage("Done Delete"+tripsList.get(pos).getName());
+    }
+
+
 }

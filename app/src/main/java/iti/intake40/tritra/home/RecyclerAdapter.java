@@ -21,8 +21,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     private List<TripModel> tripsList;
 
-    public RecyclerAdapter(List<TripModel> tripsList) {
+    private CardMenuInterface cardMenuInterface;
+
+    public RecyclerAdapter(List<TripModel> tripsList, CardMenuInterface menuInterface) {
         this.tripsList = tripsList;
+        this.cardMenuInterface = menuInterface;
     }
 
 
@@ -36,7 +39,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         holder.txtTripName.setText(tripsList.get(position).getName());
         holder.txtTripType.setText(tripsList.get(position).getType());
         holder.txtTripTime.setText(tripsList.get(position).getTime());
@@ -55,6 +58,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 Toast.makeText(holder.layout.getContext(), "btnMenu", Toast.LENGTH_SHORT).show();
+                cardMenuInterface.onPopupMenuClick(v,position);
             }
         });
 
