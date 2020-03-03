@@ -1,7 +1,21 @@
 <resources>
     <string name="app_name">TriTra</string>
+<!--Mazen-->
+    <string name="trip_name">My Alex Trip</string>
+    <string name="start_point">Ismailia ITI</string>
+    <string name="end_point">Smart village ITI</string>
+    <string name="start">Start</string>
+    <string name="trip_type">one way trip</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+<!--end Mazen-->
+<!--Awatef-->
     <string name="login">login</string>
     <string name="SignUp">Sign Up</string>
     <string name="SignIn">SignIn</string>
     <string name="haveaccount">Already have an account! login</string>
+<!--end Awatef-->
+<!--Zeyad-->
+
+<!--end Zeyad-->
 </resources>

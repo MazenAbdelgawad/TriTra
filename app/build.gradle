@@ -32,6 +32,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:17.0.0'
     implementation 'com.firebaseui:firebase-ui-database:6.0.2'
     implementation 'com.google.android.gms:play-services-analytics:9.4.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 }
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'maven'
