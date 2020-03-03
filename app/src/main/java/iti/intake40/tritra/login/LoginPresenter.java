@@ -20,7 +20,7 @@ LoginContract.ViewInterface viewInterface;
 
     @Override
     public void loginUser(String email, String password) {
-        viewInterface.showProgress();
+       // viewInterface.showProgress();
         mAuth = FirebaseAuth.getInstance();
         mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override

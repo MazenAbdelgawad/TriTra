@@ -29,7 +29,7 @@ public class SignUp extends AppCompatActivity implements SignupContract.ViewInte
     Button signup,face;
     TextView login;
     SignupContract.PresenterInterface presenterInterface;
-    ProgressBar progressBar;
+    //ProgressBar progressBar;
 
     @Override
     protected void onStart() {
@@ -66,7 +66,7 @@ public class SignUp extends AppCompatActivity implements SignupContract.ViewInte
         password=findViewById(R.id.password_txt);
         confirm_password=findViewById(R.id.confirm_password_txt);
         signup=findViewById(R.id.signup_btn);
-        progressBar=findViewById(R.id.progressBar);
+       // progressBar=findViewById(R.id.progressBar);
         face=findViewById(R.id.face_btn);
         login=findViewById(R.id.login_btn);
 
@@ -128,10 +128,10 @@ public class SignUp extends AppCompatActivity implements SignupContract.ViewInte
 
     @Override
     public void showProgress() {
-        if (progressBar.getVisibility() == View.VISIBLE)
+       /* if (progressBar.getVisibility() == View.VISIBLE)
             progressBar.setVisibility(View.INVISIBLE);
         else
-            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);*/
     }
 }
 
