@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import iti.intake40.tritra.MainActivity;
 import iti.intake40.tritra.R;
+import iti.intake40.tritra.model.UserModle;
 
 public class SignUp extends AppCompatActivity implements SignupContract.ViewInterface{
     EditText name,password,confirm_password,email;
@@ -109,7 +110,8 @@ public class SignUp extends AppCompatActivity implements SignupContract.ViewInte
             name.setError("name is required");
             return;
         }
-        presenterInterface.signUpUser(email_str, password_str);
+        UserModle userModle = new UserModle("id",name_str,email_str);
+        presenterInterface.signUpUser(userModle, password_str);
 
     }
 

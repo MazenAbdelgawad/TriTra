@@ -1,9 +1,11 @@
 package iti.intake40.tritra.signup;
 
+import iti.intake40.tritra.model.UserModle;
+
 public interface SignupContract {
 
     interface PresenterInterface {
- void signUpUser(String email,String password);
+ void signUpUser(UserModle user, String password);
 
 
     }

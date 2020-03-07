@@ -7,10 +7,10 @@ import iti.intake40.tritra.model.TripModel;
 public interface HomeContract {
 
     interface PresenterInterface {
-        void getTrips();
+        void setTrips(List<TripModel> trips);
+        void getTrips(String userId);
         void editTrip(int pos);
-        void deleteTrip(int pos);
-
+        void deleteTrip(int pos,String userId);
     }
 
     interface ViewInterface {

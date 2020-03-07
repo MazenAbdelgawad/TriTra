@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">TriTra</string>
-<!--Mazen-->
+    <!--Mazen-->
     <string name="trip_name">My Alex Trip</string>
     <string name="start_point">Ismailia ITI</string>
     <string name="end_point">Smart village ITI</string>
@@ -8,14 +8,19 @@
     <string name="trip_type">one way trip</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
-<!--end Mazen-->
-<!--Awatef-->
+    <!--end Mazen-->
+    <!--Awatef-->
     <string name="login">login</string>
     <string name="SignUp">Sign Up</string>
     <string name="SignIn">SignIn</string>
     <string name="haveaccount">Already have an account! login</string>
-<!--end Awatef-->
-<!--Zeyad-->
+    <!--end Awatef-->
+    <!--Zeyad-->
+    <string name="facebook_app_id">191385532126234</string>
+    <string name="fb_login_protocol_scheme">fb191385532126234</string>
+    <string name="no_trips">There are currently no trips in your upcoming list. Tap the button below to add trip!</string>
 
-<!--end Zeyad-->
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--end Zeyad-->
 </resources>

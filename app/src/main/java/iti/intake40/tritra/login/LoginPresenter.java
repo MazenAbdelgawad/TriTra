@@ -26,6 +26,7 @@ LoginContract.ViewInterface viewInterface;
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
+                    String id = mAuth.getCurrentUser().getUid();
                     viewInterface.displayMessage("user logined successfully");
                 }
                 else{
