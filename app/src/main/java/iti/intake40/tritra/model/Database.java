@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import iti.intake40.tritra.home.HomeContract;
+import iti.intake40.tritra.notes.NotesContract;
 
 public class Database {
     private FirebaseDatabase dbReference;
@@ -79,25 +80,36 @@ public class Database {
         System.out.println("iiidnote= "+id);
     }
 
-    public List<NoteModel>getNotesForTrip(String tripId){
-        final List<NoteModel> noteList = new ArrayList<>();
+    public void updateNote(NoteModel note,String tripId){
+        DatabaseReference databaseReference = dbReference.getReference("note").child(tripId).child(note.getId());
+        databaseReference.setValue(note);
+        System.out.println("iiidnote Update= "+note.getId());
+    }
 
+    public void getNotesForTrip(String tripId, final NotesContract.PresenterInterface notePresenter){
         dbReference.getReference("note").child(tripId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<NoteModel> noteList = new ArrayList<>();
                 for (DataSnapshot tripsnapshot: dataSnapshot.getChildren()){
                     NoteModel note =tripsnapshot.getValue(NoteModel.class);
                     noteList.add(note);
                     System.out.println("DaTABASE GET id = "+note.getId());
                 }
+                notePresenter.setAllNotes(noteList);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                notePresenter.setAllNotes(new ArrayList<NoteModel>());
                 System.out.printf("onCancelled-DatabaseError NOTE");
             }
         });
+    }
 
-        return noteList;
+    public void deleteNode(NoteModel note,String tripId){
+        DatabaseReference drNote = dbReference.getReference("note").child(tripId).child(note.getId());
+        drNote.removeValue();
+        System.out.println("remove Note = "+tripId);
     }
 }

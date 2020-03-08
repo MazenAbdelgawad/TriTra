@@ -11,6 +11,7 @@ import iti.intake40.tritra.model.Database;
 import iti.intake40.tritra.model.NoteModel;
 import iti.intake40.tritra.model.TripModel;
 import iti.intake40.tritra.model.UserModle;
+import iti.intake40.tritra.notes.NoteActivity;
 import iti.intake40.tritra.signup.SignUp;
 import android.view.View;
 import android.widget.Button;
@@ -139,6 +140,12 @@ public class MainActivity extends AppCompatActivity {
     public void signIn(View view) {
         Intent i=new Intent(MainActivity.this, LoginActivity.class);
         startActivity(i);
+    }
+
+    public void AddNote(View view) {
+        Intent intent=new Intent(MainActivity.this, NoteActivity.class);
+        intent.putExtra(NoteActivity.TRIP_ID_KEY,"-M1pmfUjMRPGHlG5SKow");
+        startActivity(intent);
     }
     ///////
 }
