@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import iti.intake40.tritra.add_trip.AddTripActivity;
 import iti.intake40.tritra.home.HomeActivity;
 import iti.intake40.tritra.login.LoginActivity;
 import iti.intake40.tritra.model.Database;
@@ -129,6 +131,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    public void addTrip(View view) {
+        Intent id=new Intent(MainActivity.this, AddTripActivity.class);
+        startActivity(id);
+    }
     ///////////
 
     //Zeyad

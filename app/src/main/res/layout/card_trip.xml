@@ -50,7 +50,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
-                    android:text="@string/trip_name"
+                    android:text="@string/trip_name_test"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/card_txt_date" />
 
@@ -63,7 +63,7 @@
                     android:layout_marginTop="20dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/card_txt_trip_name"
-                    tools:text="@string/start_point" />
+                    tools:text="@string/start_point_test" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -103,7 +103,7 @@
                     android:layout_marginTop="20dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/card_txt_trip_type"
-                    tools:text="@string/end_point" />
+                    tools:text="@string/end_point_test" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
