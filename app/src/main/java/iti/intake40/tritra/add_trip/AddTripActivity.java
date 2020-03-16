@@ -26,7 +26,9 @@ import java.util.Calendar;
 import iti.intake40.tritra.R;
 
 public class AddTripActivity extends AppCompatActivity implements AddTripContract.ViewInterface {
-    private String apiKey="AIzaSyCX00aiZAeqt9sbXM-0JGjk4evA54bKS6I";
+   // private String apiKey="AIzaSyCX00aiZAeqt9sbXM-0JGjk4evA54bKS6I"; //me
+    //private String apiKey="AIzaSyBHn174_ktTUup-lFD_cO07b2cyx1_zmXE"; //zezo
+    private String apiKey="AIzaSyBCXNUjza_-JQWSpFhvMgzpXQqgifH9qak"; //Awatef
     public static final String TAG = "TAG_AUTOSEARCH";
     TextInputEditText txtTripName;
     Button btnSave;
@@ -106,7 +108,7 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
                 // TODO: Get info about the selected place.
                 Log.i(TAG, "S Place: " + place.getName() + ", " + place.getId());
                 Log.i(TAG, "S Place ad: " + place.getAddress() + ", " + place.getAddressComponents());
-                Log.i(TAG, "S Place latu: " + place.getLatLng().latitude + ", long: " + place.getLatLng().longitude);
+                //Log.i(TAG, "S Place latu: " + place.getLatLng().latitude + ", long: " + place.getLatLng().longitude);
             }
 
             @Override

@@ -11,6 +11,8 @@
     <string name="trip_type">one way trip</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="no_trips_history">There are currently no trips in your history list. You didn\'t finish any trip yet!</string>
+    <string name="no_nodes_history">You didn\'t add any notes to this trip!</string>
     <!--end Mazen-->
     <!--Awatef-->
     <string name="login">login</string>

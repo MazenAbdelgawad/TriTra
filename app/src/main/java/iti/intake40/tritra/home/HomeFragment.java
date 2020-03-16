@@ -55,7 +55,8 @@ public class HomeFragment extends Fragment implements HomeContract.ViewInterface
         presenter.getTrips(userId);
 
         noTripsLayout = root.findViewById(R.id.no_trips_layout);
-        recyclerView = root.findViewById(R.id.home_recyclerview);
+        recyclerView = root.findViewById(R.id.history_recyclerview);
+        //recyclerView = root.findViewById(R.id.home_recyclerview);
 
         fabAddTrip = root.findViewById(R.id.fab_add_trip);
         fabAddTrip.setOnClickListener(new View.OnClickListener() {

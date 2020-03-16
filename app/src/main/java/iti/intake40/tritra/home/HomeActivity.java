@@ -3,24 +3,15 @@ package iti.intake40.tritra.home;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.List;
-
+import iti.intake40.tritra.history.HistoryFragment;
 import iti.intake40.tritra.R;
-import iti.intake40.tritra.model.Database;
-import iti.intake40.tritra.model.TripModel;
 
 public class HomeActivity extends AppCompatActivity //implements HomeContract.ViewInterface , CardMenuInterface{
 {
@@ -40,7 +31,8 @@ public class HomeActivity extends AppCompatActivity //implements HomeContract.Vi
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.dynamic_fragment,new HomeFragment());
+        //fragmentTransaction.replace(R.id.dynamic_fragment,new HomeFragment());
+        fragmentTransaction.replace(R.id.dynamic_fragment,new HistoryFragment());
         fragmentTransaction.commit();
 
 
