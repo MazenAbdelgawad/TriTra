@@ -34,9 +34,9 @@ LoginContract.ViewInterface viewInterface;
                     String email = mAuth.getCurrentUser().getEmail();
                     System.out.println(email);
                     viewInterface.displayMessage("user logined successfully");
-                    viewInterface.writeShredPreference();
+                    viewInterface.writeShredPreference(id,email);
                     viewInterface.showProgress();
-                    viewInterface.redirectId(email);
+                    viewInterface.redirectId(email,id);
                 }
                 else{
                     viewInterface.showProgress();

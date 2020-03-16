@@ -3,6 +3,7 @@ package iti.intake40.tritra.login;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -51,7 +52,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     ProgressBar progressBar;
     FirebaseDatabase database ;
     DatabaseReference myRef ;
-    public static final String MYPREF="mypref";
+    public static final String MYPREF="myAppPrefs";
     SharedPreferences share;
     @Override
     protected void onStart() {
@@ -199,18 +200,24 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                 });
     }
     @Override
-    public void writeShredPreference() {
-        share=getSharedPreferences(MYPREF,0);
+    public void writeShredPreference(String id,String email) {
+        //mPrefs = mContext.getSharedPreferences("myAppPrefs", Context.MODE_PRIVATE);
+        //SharedPreferences.Editor editor = mPrefs.edit();
+        //editor.putString("userId", result.get("uid"));
+        //editor.putBoolean("is_logged_before",true); //this line will do trick
+        //editor.commit();
+        share=getSharedPreferences(MYPREF, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=share.edit();
-        editor.putString("email",email.getText().toString());
-        editor.putString("password",password.getText().toString());
+        editor.putString("id",id);
+        editor.putString("email",email);
+        editor.putBoolean("is_logged_before",true);
         editor.commit();
 
     }
     @Override
-    public void redirectId(String s) {
+    public void redirectId(String s,String id) {
         Intent intent=new Intent(LoginActivity.this, NavigationDraw.class);
-        intent.putExtra(HomeFragment.USERID,"id5");
+        intent.putExtra(HomeFragment.USERID,"id");
         intent.putExtra(NavigationDraw.EMAil,s);
 
         startActivity(intent);
