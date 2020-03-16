@@ -31,8 +31,8 @@ public class HomeActivity extends AppCompatActivity //implements HomeContract.Vi
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        //fragmentTransaction.replace(R.id.dynamic_fragment,new HomeFragment());
-        fragmentTransaction.replace(R.id.dynamic_fragment,new HistoryFragment());
+        fragmentTransaction.replace(R.id.dynamic_fragment,new HomeFragment());
+        //fragmentTransaction.replace(R.id.dynamic_fragment,new HistoryFragment());
         fragmentTransaction.commit();
 
 

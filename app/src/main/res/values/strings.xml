@@ -13,6 +13,14 @@
     <string name="delete">Delete</string>
     <string name="no_trips_history">There are currently no trips in your history list. You didn\'t finish any trip yet!</string>
     <string name="no_nodes_history">You didn\'t add any notes to this trip!</string>
+    <string name="name_of_trip">Enter name of trip!</string>
+    <string name="start_ponit_empty">Start point can\'t be Empty!</string>
+    <string name="end_ponit_empty">End point can\'t be Empty!</string>
+    <string name="date_empty">Date can\'t be Empty!</string>
+    <string name="time_empty">Time can\'t be Empty!</string>
+    <string name="one_direction">One Direction</string>
+    <string name="round_trip">Round Trip</string>
+    <string name="type_of_trip">Type of trip</string>
     <!--end Mazen-->
     <!--Awatef-->
     <string name="login">login</string>

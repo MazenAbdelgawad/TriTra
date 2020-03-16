@@ -1,6 +1,7 @@
 package iti.intake40.tritra.add_trip;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
@@ -9,12 +10,15 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.model.Place;
@@ -22,6 +26,7 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.libraries.places.api.Places;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -30,6 +35,8 @@ import java.util.Calendar;
 
 import iti.intake40.tritra.R;
 import iti.intake40.tritra.alarm.AlarmReceiver;
+import iti.intake40.tritra.home.HomeFragment;
+import iti.intake40.tritra.model.TripModel;
 
 public class AddTripActivity extends AppCompatActivity implements AddTripContract.ViewInterface {
    // private String apiKey="AIzaSyCX00aiZAeqt9sbXM-0JGjk4evA54bKS6I"; //me
@@ -49,13 +56,23 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
     int tripDay;
     int tripHour;
     int tripMinute;
+    ToggleButton tglBtnTripType;
+    Place startPoint;
+    Place endPoint;
+    NestedScrollView spinerContainerLayout;
 
+    TripModel trip;
+    String userId;
+
+    AddTripContract.PresenterInterface presenterInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_trip);
 
+        presenterInterface = new AddTripPresenter(this);
+        userId = getIntent().getStringExtra(HomeFragment.USERID);
         calendar = Calendar.getInstance();
 
         txtTripName = findViewById(R.id.txt_trip_name);
@@ -65,6 +82,10 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
         btnTime = findViewById(R.id.btn_time);
         txtDate = findViewById(R.id.txt_date);
         txtTime = findViewById(R.id.txt_time);
+        tglBtnTripType = findViewById(R.id.tgl_btn_trip_type);
+        spinerContainerLayout = findViewById(R.id.spiner_container);
+
+        trip = new TripModel();
 
         btnDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,65 +124,77 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
         });
 
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
+        tglBtnTripType.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                createAlarm();
-                Toast.makeText(AddTripActivity.this,"Alarm set on" + tripHour + tripMinute,Toast.LENGTH_LONG).show();
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                    trip.setType(TripModel.TYPE.ROUND_TRIP);
+                else
+                    trip.setType(TripModel.TYPE.ONE_DIRECTION);
             }
         });
 
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(TextUtils.isEmpty(txtTripName.getText())){
+                    Snackbar.make(spinerContainerLayout, R.string.name_of_trip, Snackbar.LENGTH_SHORT).show();
+                }else if(startPoint == null){
+                    Snackbar.make(spinerContainerLayout, R.string.start_ponit_empty, Snackbar.LENGTH_SHORT).show();
+                }else if(endPoint == null){
+                    Snackbar.make(spinerContainerLayout, R.string.end_ponit_empty, Snackbar.LENGTH_SHORT).show();
+                }else if(tripYear==0 || tripMonth==0 || tripDay==0){
+                    Snackbar.make(spinerContainerLayout, R.string.date_empty, Snackbar.LENGTH_SHORT).show();
+                }else if(tripHour==0 || tripMinute==0) {
+                    Snackbar.make(spinerContainerLayout, R.string.time_empty, Snackbar.LENGTH_SHORT).show();
+                }else{
+                    trip.setName(txtTripName.getText().toString());
+                    trip.setStartPoint(startPoint.getName());
+                    trip.setEndPoint(endPoint.getName());
+                    trip.setDate(tripYear+"-"+tripMonth+"-"+tripDay);
+                    trip.setTime(tripHour+":"+tripMinute);
+                    trip.setStatus(TripModel.STATUS.UPCOMING);
+                    presenterInterface.addTrip(trip,userId);
+                    createAlarm();
+                    Toast.makeText(AddTripActivity.this,"Alarm set on" + tripHour + tripMinute,Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
-        // Initialize the SDK
+        //StartPoint
         Places.initialize(getApplicationContext(), apiKey);
-        // Create a new Places client instance
         PlacesClient placesClient = Places.createClient(this);
-
-
-        // Initialize the AutocompleteSupportFragment.
-        AutocompleteSupportFragment acfStartPoint = (AutocompleteSupportFragment)
+        final AutocompleteSupportFragment acfStartPoint = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment_startpoint);
-
         acfStartPoint.setHint(getString(R.string.select_start_point));
-        // Specify the types of place data to return.
         acfStartPoint.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
-
-        // Set up a PlaceSelectionListener to handle the response.
         acfStartPoint.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
-                Log.i(TAG, "S Place: " + place.getName() + ", " + place.getId());
-                Log.i(TAG, "S Place ad: " + place.getAddress() + ", " + place.getAddressComponents());
-                //Log.i(TAG, "S Place latu: " + place.getLatLng().latitude + ", long: " + place.getLatLng().longitude);
+                startPoint = place;
             }
 
             @Override
             public void onError(Status status) {
-                // TODO: Handle the error.
+                Toast.makeText(AddTripActivity.this, "Check your internet connection!", Toast.LENGTH_SHORT).show();
                 Log.i(TAG, "An error occurred: " + status);
             }
         });
-        //////////////////////////////////////////////////////////////////
-        // Initialize the AutocompleteSupportFragment.
+        //EndPoint
         AutocompleteSupportFragment acfEndpoint = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment_endpoint);
-
         acfEndpoint.setHint(getString(R.string.select_end_point));
-        // Specify the types of place data to return.
         acfEndpoint.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
-
-        // Set up a PlaceSelectionListener to handle the response.
         acfEndpoint.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
+                endPoint = place;
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
             }
 
             @Override
             public void onError(Status status) {
-                // TODO: Handle the error.
+                Toast.makeText(AddTripActivity.this, "Check your internet connection!", Toast.LENGTH_SHORT).show();
                 Log.i(TAG, "An error occurred: " + status);
             }
         });
