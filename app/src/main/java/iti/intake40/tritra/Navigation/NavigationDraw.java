@@ -30,7 +30,7 @@ import iti.intake40.tritra.login.LoginActivity;
 
 public class NavigationDraw extends AppCompatActivity  {
     public static final String EMAil = "EMAIL";
-   String email;
+    String email;
     private AppBarConfiguration mAppBarConfiguration;
 
     @Override

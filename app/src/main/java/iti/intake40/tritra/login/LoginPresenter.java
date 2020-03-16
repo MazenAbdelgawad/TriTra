@@ -36,7 +36,7 @@ LoginContract.ViewInterface viewInterface;
                     viewInterface.displayMessage("user logined successfully");
                     viewInterface.writeShredPreference();
                     viewInterface.showProgress();
-                    viewInterface.redirectId(email);
+                    viewInterface.redirectId(email,id);
                 }
                 else{
                     viewInterface.showProgress();

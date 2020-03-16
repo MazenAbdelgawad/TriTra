@@ -34,7 +34,7 @@
             android:enabled="true"
 
             android:inputType="textMultiLine"
-            android:lines="10"
+            android:lines="3"
             android:maxLines="3"
             android:minLines="1"
             android:scrollbars="vertical" />
@@ -44,10 +44,9 @@
             android:id="@+id/deletebtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="1dp"
             android:layout_weight="1"
             android:background="@drawable/delete_shape"
-
             app:srcCompat="@android:drawable/ic_delete" />
     </LinearLayout>
 

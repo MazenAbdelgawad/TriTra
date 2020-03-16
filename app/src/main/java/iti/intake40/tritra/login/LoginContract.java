@@ -9,7 +9,7 @@ public interface LoginContract {
     interface ViewInterface {
         void displayMessage(String message);
         void  showProgress();
-        void redirectId(String s);
-         void writeShredPreference();
+        void redirectId(String s,String id);
+        void writeShredPreference();
     }
 }

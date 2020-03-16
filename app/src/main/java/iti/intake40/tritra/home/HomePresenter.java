@@ -55,5 +55,10 @@ public class HomePresenter implements HomeContract.PresenterInterface {
         //viewInterface.displayMessage("Done Delete"+tripsList.get(pos).getName());
     }
 
+    @Override
+    public void moveTripToHistory(TripModel tripModel, String userId) {
+        Database.getInstance().deleteTrip(tripModel.getId(),userId);
+        Database.getInstance().addTripHistory(tripModel,userId);
+    }
 
 }

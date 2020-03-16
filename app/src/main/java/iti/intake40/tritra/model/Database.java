@@ -117,24 +117,23 @@ public class Database {
 
     ////////////////////////////////////////////////////////////////////////////
     public void addTripHistory(TripModel trip,String userId){
-        DatabaseReference databaseReference = dbReference.getReference("trip").child(userId);
-        String id = databaseReference.push().getKey();
-        trip.setId(id);
-        databaseReference.child(id).setValue(trip);
-        System.out.println("iiidTrip= "+id);
+        DatabaseReference databaseReference = dbReference.getReference("tripHistory").child(userId).child(trip.getId());
+//        String id = databaseReference.push().getKey();
+//        trip.setId(id);
+        databaseReference.setValue(trip);
     }
 
     public void deleteTripHistory(String tripId,String userId){
-        DatabaseReference drTrip = dbReference.getReference("trip").child(userId).child(tripId);
+        DatabaseReference drTrip = dbReference.getReference("tripHistory").child(userId).child(tripId);
         DatabaseReference drNote = dbReference.getReference("note").child(tripId);
         drNote.removeValue();
         drTrip.removeValue();
-        System.out.println("remove Trip = "+tripId);
+        System.out.println("remove TripHistory = "+tripId);
     }
 
     public void getTripsHistoryForUser(String userId, final HistoryContract.PresenterInterface historyPresnter){
 
-        dbReference.getReference("trip").child(userId).addValueEventListener(new ValueEventListener() {
+        dbReference.getReference("tripHistory").child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<TripModel> tripList = new ArrayList<>();

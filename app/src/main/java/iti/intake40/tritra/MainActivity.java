@@ -70,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
     public void openHome(View view) {
         Toast.makeText(this, "Count= "+noteList.size(), Toast.LENGTH_SHORT).show();
 
-       Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-        intent.putExtra(HomeActivity.USERID,"id5");
+       Intent intent = new Intent(MainActivity.this, NavigationDraw.class);
+       intent.putExtra(HomeActivity.USERID,"id5");
        startActivity(intent);
 
         UserModle userModle = new UserModle();

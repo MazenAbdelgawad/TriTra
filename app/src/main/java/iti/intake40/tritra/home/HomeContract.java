@@ -11,6 +11,7 @@ public interface HomeContract {
         void getTrips(String userId);
         void editTrip(int pos);
         void deleteTrip(int pos,String userId);
+        void moveTripToHistory(TripModel tripModel,String userId);
     }
 
     interface ViewInterface {

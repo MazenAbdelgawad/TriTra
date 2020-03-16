@@ -208,9 +208,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     }
     @Override
-    public void redirectId(String s) {
+    public void redirectId(String s,String id) {
         Intent intent=new Intent(LoginActivity.this, NavigationDraw.class);
-        intent.putExtra(HomeFragment.USERID,"id5");
+        intent.putExtra(HomeFragment.USERID,id);
         intent.putExtra(NavigationDraw.EMAil,s);
 
         startActivity(intent);

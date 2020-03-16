@@ -2,6 +2,7 @@ package iti.intake40.tritra.home;
 
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -21,10 +22,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
+import iti.intake40.tritra.MainActivity;
 import iti.intake40.tritra.R;
 import iti.intake40.tritra.add_trip.AddTripActivity;
+import iti.intake40.tritra.alarm.AlarmActivity;
 import iti.intake40.tritra.model.Database;
 import iti.intake40.tritra.model.TripModel;
+import iti.intake40.tritra.notes.NoteActivity;
 
 
 /**
@@ -125,6 +129,23 @@ public class HomeFragment extends Fragment implements HomeContract.ViewInterface
             }
         });
         popup.show();
+    }
+
+    @Override
+    public void openNotes(String tripId) {
+        Intent intent=new Intent(getContext(), NoteActivity.class);
+        intent.putExtra(NoteActivity.TRIP_ID_KEY,tripId);
+        startActivity(intent);
+    }
+
+    @Override
+    public void startTrip(TripModel trip) {
+        //Intent mapsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr=" + 48.860294 + "," + 2.338629 + "&daddr=" + 48.858093 + "," + 2.294694));
+        Intent mapsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr=" + trip.getEndPoint()));
+        mapsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(mapsIntent);
+        presenter.moveTripToHistory(trip,userId);
+        //add Floatin ICON
     }
 
 }

@@ -51,6 +51,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 Toast.makeText(holder.layout.getContext(), "btnNotes", Toast.LENGTH_SHORT).show();
+                cardMenuInterface.openNotes(tripsList.get(position).getId());
             }
         });
 
@@ -66,6 +67,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 Toast.makeText(holder.layout.getContext(), "btnStart", Toast.LENGTH_SHORT).show();
+                cardMenuInterface.startTrip(tripsList.get(position));
             }
         });
     }

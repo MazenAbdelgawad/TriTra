@@ -1,6 +1,7 @@
 package iti.intake40.tritra.alarm;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -41,7 +42,7 @@ public class AlarmActivity extends Activity {
         configAlertBuilder(alertDialogBuilder);
         AlertDialog tripAlertDialog = alertDialogBuilder.create();
         tripAlertDialog.setCanceledOnTouchOutside(false);
-        tripAlertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
+//        tripAlertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
         tripAlertDialog.show();
     }
 
@@ -79,6 +80,8 @@ public class AlarmActivity extends Activity {
             public void onClick(DialogInterface dialog, int which) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     showNotification();
+                }else{
+                    showNotificationBelowOreo();
                 }
                 dialog.cancel();
                 tripAlarmRingtone.stop();
@@ -127,6 +130,45 @@ public class AlarmActivity extends Activity {
                 .build();
         notificationManager.notify(tripNotifacationID, notification);
     }
+
+    private void showNotificationBelowOreo() {
+        int id = (int) System.currentTimeMillis();
+        int tripNotifacationID = id;
+
+        Intent startIntent = new Intent(AlarmActivity.this, AlarmReceiver.class);
+        startIntent.putExtra("NotificationId", 1);
+        startIntent.putExtra("ActionButtonId", 1);
+        startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent startPendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, 0, startIntent, PendingIntent.FLAG_ONE_SHOT);
+
+        Intent endIntent = new Intent(AlarmActivity.this, AlarmReceiver.class);
+        endIntent.putExtra("NotificationId", 1);
+        endIntent.putExtra("ActionButtonId", 2);
+        endIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent endPendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, 1, endIntent, PendingIntent.FLAG_ONE_SHOT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "Alarm_Channel")
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("My notification")
+                .setContentText("Hello World!")
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                // Set the intent that will fire when the user taps the notification
+                // .setContentIntent(pendingIntent)
+                .addAction(R.mipmap.ic_launcher_round, "Start", startPendingIntent)
+                .addAction(R.mipmap.ic_launcher_round, "End", endPendingIntent)
+                .setAutoCancel(true);
+
+//        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+//
+//        // notificationId is a unique int for each notification that you must define
+//        notificationManager.notify(tripNotifacationID, builder.build());
+
+        // NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(tripNotifacationID, builder.build());
+
+    }
+
 
     private void openMaps(){
         Intent mapsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr=" + 48.860294 + "," + 2.338629 + "&daddr=" + 48.858093 + "," + 2.294694));
