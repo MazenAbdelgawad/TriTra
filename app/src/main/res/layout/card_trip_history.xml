@@ -108,52 +108,32 @@
         </LinearLayout>
 
         <ImageButton
-            android:id="@+id/card_imgbtn_menu"
-            android:layout_width="20dp"
-            android:layout_height="50dp"
+            android:id="@+id/card_imgbtn_delete"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:background="@null"
-            android:src="@drawable/ic_menu"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_delete"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_alignParentEnd="true" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="0dp"
+        <ImageButton
+            android:id="@+id/card_imgbtn_notes"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            android:orientation="horizontal"
-            android:weightSum="4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
-
-            <Button
-                android:id="@+id/card_btn_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:layout_weight="3"
-                android:background="@drawable/button_start"
-                android:text="@string/start"
-                android:textColor="#fff"
-                android:layout_marginEnd="20dp" />
-
-            <ImageButton
-                android:id="@+id/card_imgbtn_notes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:src="@drawable/ic_notes" />
-        </LinearLayout>
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:src="@drawable/ic_notes"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

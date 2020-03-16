@@ -11,6 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import iti.intake40.tritra.history.HistoryContract;
 import iti.intake40.tritra.home.HomeContract;
 import iti.intake40.tritra.notes.NotesContract;
 
@@ -86,7 +87,7 @@ public class Database {
         System.out.println("iiidnote Update= "+note.getId());
     }
 
-    public void getNotesForTrip(String tripId, final NotesContract.PresenterInterface notePresenter){
+    public void getNotesForTrip(String tripId, final NotesPresenterInterface notePresenter){
         dbReference.getReference("note").child(tripId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -112,4 +113,45 @@ public class Database {
         drNote.removeValue();
         System.out.println("remove Note = "+tripId);
     }
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    public void addTripHistory(TripModel trip,String userId){
+        DatabaseReference databaseReference = dbReference.getReference("trip").child(userId);
+        String id = databaseReference.push().getKey();
+        trip.setId(id);
+        databaseReference.child(id).setValue(trip);
+        System.out.println("iiidTrip= "+id);
+    }
+
+    public void deleteTripHistory(String tripId,String userId){
+        DatabaseReference drTrip = dbReference.getReference("trip").child(userId).child(tripId);
+        DatabaseReference drNote = dbReference.getReference("note").child(tripId);
+        drNote.removeValue();
+        drTrip.removeValue();
+        System.out.println("remove Trip = "+tripId);
+    }
+
+    public void getTripsHistoryForUser(String userId, final HistoryContract.PresenterInterface historyPresnter){
+
+        dbReference.getReference("trip").child(userId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<TripModel> tripList = new ArrayList<>();
+                for (DataSnapshot tripsnapshot: dataSnapshot.getChildren()){
+                    TripModel trip =tripsnapshot.getValue(TripModel.class);
+                    tripList.add(trip);
+                }
+                historyPresnter.setTrips(tripList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.printf("onCancelled-DatabaseError");
+                historyPresnter.setTrips(new ArrayList<TripModel>());
+            }
+        });
+    }
+
+
 }

@@ -1,0 +1,16 @@
+package iti.intake40.tritra.history_note_dialog;
+
+import java.util.List;
+
+import iti.intake40.tritra.model.NoteModel;
+import iti.intake40.tritra.model.NotesPresenterInterface;
+
+public interface HistoryNotesContract {
+
+    interface PresenterInterface extends NotesPresenterInterface {
+    }
+
+    interface ViewInterface {
+        void updateNoteList(List<NoteModel> notes);
+    }
+}

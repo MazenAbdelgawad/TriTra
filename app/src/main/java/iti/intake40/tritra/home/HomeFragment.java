@@ -1,6 +1,7 @@
 package iti.intake40.tritra.home;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -21,6 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 import iti.intake40.tritra.R;
+import iti.intake40.tritra.add_trip.AddTripActivity;
 import iti.intake40.tritra.model.Database;
 import iti.intake40.tritra.model.TripModel;
 
@@ -55,15 +57,19 @@ public class HomeFragment extends Fragment implements HomeContract.ViewInterface
         presenter.getTrips(userId);
 
         noTripsLayout = root.findViewById(R.id.no_trips_layout);
-        recyclerView = root.findViewById(R.id.home_recyclerview);
+        recyclerView = root.findViewById(R.id.history_recyclerview);
+        //recyclerView = root.findViewById(R.id.home_recyclerview);
 
         fabAddTrip = root.findViewById(R.id.fab_add_trip);
         fabAddTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "ADD TRIP UID=" + userId, Toast.LENGTH_SHORT).show();
-                TripModel trip = new TripModel();
-                Database.getInstance().addTrip(trip, userId);
+                //TripModel trip = new TripModel();
+                //Database.getInstance().addTrip(trip, userId);
+                Intent intent = new Intent(getContext(), AddTripActivity.class);
+                intent.putExtra(HomeFragment.USERID,userId);
+                startActivity(intent);
             }
         });
         return root;

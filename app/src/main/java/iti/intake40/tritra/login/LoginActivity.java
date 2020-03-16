@@ -29,11 +29,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import iti.intake40.tritra.MainActivity;
 import iti.intake40.tritra.Navigation.NavigationDraw;
 import iti.intake40.tritra.R;
 import iti.intake40.tritra.home.HomeFragment;
+import iti.intake40.tritra.model.Database;
+import iti.intake40.tritra.model.UserModle;
 import iti.intake40.tritra.signup.SignUp;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.ViewInterface {
@@ -45,6 +49,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     Button login,face;
     TextView signup;
     ProgressBar progressBar;
+    FirebaseDatabase database ;
+    DatabaseReference myRef ;
     public static final String MYPREF="mypref";
     SharedPreferences share;
     @Override
@@ -118,10 +124,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     }
 
 
-
-
-
-
     public void registerLoginButton(){
 
         // Initialize Facebook Login button
@@ -132,6 +134,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d("FACE", "facebook:onSuccess:" + loginResult);
+//                database = FirebaseDatabase.getInstance();
+//                myRef = database.getReference("users");
                 handleFacebookAccessToken(loginResult.getAccessToken());
             }
 
@@ -178,8 +182,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                             Log.d("Face", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             ////
-//                            UserModle userModle = new UserModle(user.getUid(),user.getDisplayName(),user.getEmail());
-//                            Database.getInstance().addUser(userModle);
+                            UserModle userModle = new UserModle(user.getUid(),user.getDisplayName(),user.getEmail());
+                            Database.getInstance().addUser(userModle);
                             ////
                             updateUI(user);
                         } else {
