@@ -10,6 +10,6 @@ public interface LoginContract {
         void displayMessage(String message);
         void  showProgress();
         void redirectId(String s,String id);
-        void writeShredPreference();
+         void writeShredPreference(String id,String email);
     }
 }

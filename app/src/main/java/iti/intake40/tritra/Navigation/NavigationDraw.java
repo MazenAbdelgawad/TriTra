@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import iti.intake40.tritra.MainActivity;
 import iti.intake40.tritra.R;
+import iti.intake40.tritra.history.HistoryFragment;
 import iti.intake40.tritra.home.HomeFragment;
 import iti.intake40.tritra.login.LoginActivity;
 
@@ -79,10 +80,10 @@ public class NavigationDraw extends AppCompatActivity  {
                         selectedFregment=new HomeFragment();
                         getSupportFragmentManager().beginTransaction().replace( R.id.nav_host_fragment,selectedFregment).commit();
                         break;
-                   /* case R.id.nav_gallery:
-                        selectedFregment=new GalleryFragment() ;
+                    case R.id.nav_gallery:
+                        selectedFregment=new HistoryFragment() ;
                         getSupportFragmentManager().beginTransaction().replace( R.id.nav_host_fragment,selectedFregment).commit();
-                        break;*/
+                        break;
                 }
                 drawer.closeDrawers();
                 return true;
