@@ -2,14 +2,19 @@ package iti.intake40.tritra.add_trip;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.model.Place;
@@ -24,6 +29,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 
 import iti.intake40.tritra.R;
+import iti.intake40.tritra.alarm.AlarmReceiver;
 
 public class AddTripActivity extends AppCompatActivity implements AddTripContract.ViewInterface {
     private String apiKey="AIzaSyCX00aiZAeqt9sbXM-0JGjk4evA54bKS6I";
@@ -36,6 +42,12 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
     MaterialTextView txtDate;
     MaterialTextView txtTime;
     Calendar calendar;
+    int tripYear;
+    int tripMonth;
+    int tripDay;
+    int tripHour;
+    int tripMinute;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +72,9 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
                             @Override
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
+                                tripYear = year ;
+                                tripMonth = monthOfYear;
+                                tripDay = dayOfMonth;
                                 txtDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
                             }
                         },calendar.get(Calendar.YEAR) , calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -76,6 +91,8 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
+                                tripHour = hourOfDay;
+                                tripMinute = minute;
                                 txtTime.setText(hourOfDay + ":" + minute);
                             }
                         }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
@@ -83,6 +100,14 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
             }
         });
 
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createAlarm();
+                Toast.makeText(AddTripActivity.this,"Alarm set on" + tripHour + tripMinute,Toast.LENGTH_LONG).show();
+            }
+        });
 
 
         // Initialize the SDK
@@ -138,9 +163,19 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
                 Log.i(TAG, "An error occurred: " + status);
             }
         });
+    }
 
-
-
+    private void createAlarm(){
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(tripYear,tripMonth,tripDay,tripHour,tripMinute,0);
+        Intent tripAlarmIntent = new Intent(AddTripActivity.this, AlarmReceiver.class);
+        PendingIntent tripAlarmPendingIntent = PendingIntent.getBroadcast(AddTripActivity.this,0,tripAlarmIntent,0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),tripAlarmPendingIntent);
+        }else{
+            alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),tripAlarmPendingIntent);
+        }
     }
 
 

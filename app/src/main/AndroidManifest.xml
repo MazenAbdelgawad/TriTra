@@ -4,6 +4,8 @@
     package="iti.intake40.tritra">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +14,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".add_trip.AddTripActivity"></activity>
+        <service
+            android:name=".floating_head.HeadService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <activity
+            android:name=".alarm.AlarmActivity"
+            android:theme="@style/AppDialogTheme" />
+
+        <receiver
+            android:name=".alarm.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".add_trip.AddTripActivity" />
         <activity
             android:name=".notes.NoteActivity"
             android:parentActivityName=".MainActivity" />

@@ -28,6 +28,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import iti.intake40.tritra.MainActivity;
 import iti.intake40.tritra.R;
@@ -44,6 +46,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     Button login,google,face;
     TextView signup;
     ProgressBar progressBar;
+    FirebaseDatabase database ;
+    DatabaseReference myRef ;
     @Override
     protected void onStart() {
         super.onStart();
@@ -128,6 +132,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d("FACE", "facebook:onSuccess:" + loginResult);
+//                database = FirebaseDatabase.getInstance();
+//                myRef = database.getReference("users");
                 handleFacebookAccessToken(loginResult.getAccessToken());
             }
 
@@ -172,10 +178,15 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("Face", "signInWithCredential:success");
+
                             FirebaseUser user = mAuth.getCurrentUser();
-                            ////
-//                            UserModle userModle = new UserModle(user.getUid(),user.getDisplayName(),user.getEmail());
-//                            Database.getInstance().addUser(userModle);
+//                            myRef.child("userId").setValue(user.getUid());
+//                            myRef.child("userName").setValue(user.getDisplayName());
+//                            myRef.child("userMail").setValue(user.getEmail());
+                            //
+                            UserModle userModle = new UserModle(user.getUid(),user.getDisplayName(),user.getEmail());
+                            Database.getInstance().addUser(userModle);
+                            System.out.println("USER Firebase ID= "+ userModle.getId());
                             ////
                             updateUI(user);
                         } else {
