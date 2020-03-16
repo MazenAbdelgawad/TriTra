@@ -1,13 +1,10 @@
 package iti.intake40.tritra.signup;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,14 +12,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 import iti.intake40.tritra.MainActivity;
+import iti.intake40.tritra.Navigation.NavigationDraw;
 import iti.intake40.tritra.R;
+import iti.intake40.tritra.login.LoginActivity;
 import iti.intake40.tritra.model.UserModle;
 
 public class SignUp extends AppCompatActivity implements SignupContract.ViewInterface{
@@ -30,7 +23,7 @@ public class SignUp extends AppCompatActivity implements SignupContract.ViewInte
     Button signup,face;
     TextView login;
     SignupContract.PresenterInterface presenterInterface;
-    //ProgressBar progressBar;
+    ProgressBar progressBar;
 
     @Override
     protected void onStart() {
@@ -58,16 +51,23 @@ public class SignUp extends AppCompatActivity implements SignupContract.ViewInte
             }
 
         });
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(SignUp.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
     private void setUpViews(){
         name=findViewById(R.id.name_txt);
-        email=findViewById(R.id.email_txt);
-        password=findViewById(R.id.password_txt);
+        email=findViewById(R.id.email);
+        password=findViewById(R.id.Password);
         confirm_password=findViewById(R.id.confirm_password_txt);
         signup=findViewById(R.id.signup_btn);
-       // progressBar=findViewById(R.id.progressBar);
+       progressBar=findViewById(R.id.progressBar);
         face=findViewById(R.id.face_btn);
         login=findViewById(R.id.login_btn);
 
@@ -123,17 +123,17 @@ public class SignUp extends AppCompatActivity implements SignupContract.ViewInte
 
     @Override
     public void redirectId(String s) {
-        Intent intent=new Intent(SignUp.this,MainActivity.class);
+        Intent intent=new Intent(SignUp.this,LoginActivity.class);
         intent.putExtra("userid",s);
         startActivity(intent);
     }
 
     @Override
     public void showProgress() {
-       /* if (progressBar.getVisibility() == View.VISIBLE)
+        if (progressBar.getVisibility() == View.VISIBLE)
             progressBar.setVisibility(View.INVISIBLE);
         else
-            progressBar.setVisibility(View.VISIBLE);*/
+            progressBar.setVisibility(View.VISIBLE);
     }
 }
 

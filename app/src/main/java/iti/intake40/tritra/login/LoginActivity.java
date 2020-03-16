@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -30,10 +31,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import iti.intake40.tritra.MainActivity;
+import iti.intake40.tritra.Navigation.NavigationDraw;
 import iti.intake40.tritra.R;
-import iti.intake40.tritra.model.Database;
-import iti.intake40.tritra.model.UserModle;
-import iti.intake40.tritra.signup.SignupPresenter;
+import iti.intake40.tritra.home.HomeFragment;
+import iti.intake40.tritra.signup.SignUp;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.ViewInterface {
     private CallbackManager mCallbackManager;
@@ -41,9 +42,11 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     LoginContract.PresenterInterface presenterInterface;
     ImageView img;
     EditText email,password;
-    Button login,google,face;
+    Button login,face;
     TextView signup;
     ProgressBar progressBar;
+    public static final String MYPREF="mypref";
+    SharedPreferences share;
     @Override
     protected void onStart() {
         super.onStart();
@@ -66,7 +69,13 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
             }
         });
-
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(LoginActivity.this, SignUp.class);
+                startActivity(intent);
+            }
+        });
         mAuth = FirebaseAuth.getInstance();
         registerLoginButton();
 
@@ -74,9 +83,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     private void setupViews(){
         img=findViewById(R.id.img);
         email=findViewById(R.id.name_txt);
-        password=findViewById(R.id.email_txt);
+        password=findViewById(R.id.email);
         login=findViewById(R.id.login_btn);
-        google=findViewById(R.id.google_btn);
         face=findViewById(R.id.face_btn);
         signup=findViewById(R.id.link_txv);
         progressBar=findViewById(R.id.progressBar);
@@ -109,13 +117,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
-    @Override
-    public void showProgress() {
-        if (progressBar.getVisibility() == View.VISIBLE)
-            progressBar.setVisibility(View.INVISIBLE);
-        else
-            progressBar.setVisibility(View.VISIBLE);
-    }
+
+
+
 
 
     public void registerLoginButton(){
@@ -190,5 +194,28 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                     }
                 });
     }
+    @Override
+    public void writeShredPreference() {
+        share=getSharedPreferences(MYPREF,0);
+        SharedPreferences.Editor editor=share.edit();
+        editor.putString("email",email.getText().toString());
+        editor.putString("password",password.getText().toString());
+        editor.commit();
 
+    }
+    @Override
+    public void redirectId(String s) {
+        Intent intent=new Intent(LoginActivity.this, NavigationDraw.class);
+        intent.putExtra(HomeFragment.USERID,"id5");
+        intent.putExtra(NavigationDraw.EMAil,s);
+
+        startActivity(intent);
+    }
+    @Override
+    public void showProgress() {
+        if (progressBar.getVisibility() == View.VISIBLE)
+            progressBar.setVisibility(View.INVISIBLE);
+        else
+            progressBar.setVisibility(View.VISIBLE);
+    }
 }

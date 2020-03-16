@@ -30,9 +30,11 @@ SignupContract.ViewInterface viewInterface;
                    user.setId(mAuth.getCurrentUser().getUid());
                    Database.getInstance().addUser(user);
                    viewInterface.redirectId(user.getId());
+
                }
                else{
                    viewInterface.displayMessage("user already exist");
+                   viewInterface.showProgress();
                }
 
            }

@@ -67,6 +67,7 @@ public class HomeFragment extends Fragment implements HomeContract.ViewInterface
             }
         });
         return root;
+
     }
 
     @Override

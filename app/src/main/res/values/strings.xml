@@ -14,6 +14,26 @@
     <string name="SignUp">Sign Up</string>
     <string name="SignIn">SignIn</string>
     <string name="haveaccount">Already have an account! login</string>
+    <string name="drawerOpen">drawerOpen</string>
+    <string name="drawerClose">drawerClose</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title">Navigationemail</string>
+    <string name="nav_header_title">nav_header_title</string>
+    <string name="nav_header_subtitle">nav_header_subtitle</string>
+    <string name="nav_header_desc">nav_header_desc</string>
+    <string name="menu_home">menu_home</string>
+    <string name="menu_gallery">menu_gallery</string>
+    <string name="menu_slideshow">menu_slideshow</string>
+    <string name="menu_tools">menu_tools</string>
+    <string name="menu_share">menu_share</string>
+    <string name="menu_send">menu_send</string>
+    <string name="logout">logout</string>
+    <string name="Upcoming">Upcoming</string>
+    <string name="History">history</string>
+    <string name="title_activity_navigation">Navigation</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
     <!--end Awatef-->
     <!--Zeyad-->
     <string name="facebook_app_id">191385532126234</string>
@@ -21,6 +41,6 @@
     <string name="no_trips">There are currently no trips in your upcoming list. Tap the button below to add trip!</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <!--end Zeyad-->
 </resources>
