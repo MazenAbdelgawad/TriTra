@@ -21,6 +21,8 @@
     <string name="one_direction">One Direction</string>
     <string name="round_trip">Round Trip</string>
     <string name="type_of_trip">Type of trip</string>
+    <string name="history">History</string>
+    <string name="upcoming">Upcoming</string>
     <!--end Mazen-->
     <!--Awatef-->
     <string name="login">login</string>
@@ -40,8 +42,6 @@
     <string name="menu_share">menu_share</string>
     <string name="menu_send">menu_send</string>
     <string name="logout">logout</string>
-    <string name="Upcoming">Upcoming</string>
-    <string name="History">history</string>
     <string name="title_activity_navigation">Navigation</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

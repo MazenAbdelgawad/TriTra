@@ -54,8 +54,7 @@ public class SignUp extends AppCompatActivity implements SignupContract.ViewInte
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(SignUp.this, LoginActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
 
@@ -67,7 +66,7 @@ public class SignUp extends AppCompatActivity implements SignupContract.ViewInte
         password=findViewById(R.id.Password);
         confirm_password=findViewById(R.id.confirm_password_txt);
         signup=findViewById(R.id.signup_btn);
-       progressBar=findViewById(R.id.progressBar);
+        progressBar=findViewById(R.id.progressBar);
         face=findViewById(R.id.face_btn);
         login=findViewById(R.id.login_btn);
 

@@ -199,6 +199,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                     }
                 });
     }
+
     @Override
     public void writeShredPreference(String id,String email) {
         //mPrefs = mContext.getSharedPreferences("myAppPrefs", Context.MODE_PRIVATE);
@@ -214,14 +215,16 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         editor.commit();
 
     }
+
     @Override
     public void redirectId(String s,String id) {
         Intent intent=new Intent(LoginActivity.this, NavigationDraw.class);
-        intent.putExtra(HomeFragment.USERID,"id");
+        intent.putExtra(HomeFragment.USERID,id);
         intent.putExtra(NavigationDraw.EMAil,s);
-
         startActivity(intent);
+        finish();
     }
+
     @Override
     public void showProgress() {
         if (progressBar.getVisibility() == View.VISIBLE)
@@ -229,4 +232,5 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         else
             progressBar.setVisibility(View.VISIBLE);
     }
+
 }

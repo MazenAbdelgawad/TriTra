@@ -1,6 +1,8 @@
 package iti.intake40.tritra.Navigation;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.view.MenuItem;
@@ -33,13 +35,14 @@ public class NavigationDraw extends AppCompatActivity  {
     public static final String EMAil = "EMAIL";
     String email;
     private AppBarConfiguration mAppBarConfiguration;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_navigation);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -79,10 +82,12 @@ public class NavigationDraw extends AppCompatActivity  {
                     case  R.id.nav_home:
                         selectedFregment=new HomeFragment();
                         getSupportFragmentManager().beginTransaction().replace( R.id.nav_host_fragment,selectedFregment).commit();
+                        toolbar.setTitle(R.string.upcoming);
                         break;
                     case R.id.nav_gallery:
                         selectedFregment=new HistoryFragment() ;
                         getSupportFragmentManager().beginTransaction().replace( R.id.nav_host_fragment,selectedFregment).commit();
+                        toolbar.setTitle(R.string.history);
                         break;
                 }
                 drawer.closeDrawers();
@@ -91,8 +96,12 @@ public class NavigationDraw extends AppCompatActivity  {
             }
         });
     }
+
+
     public void logout(){
         FirebaseAuth.getInstance().signOut();
+        SharedPreferences mPrefs = getSharedPreferences("myAppPrefs", Context.MODE_PRIVATE);
+        mPrefs.edit().putBoolean("is_logged_before",false).commit();
         Intent intent = new Intent(NavigationDraw.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

@@ -9,9 +9,13 @@
 
     <EditText
         android:id="@+id/name_txt"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginRight="36dp"
         android:background="@drawable/border"
         android:drawableLeft="@drawable/name"
         android:ems="10"
@@ -26,9 +30,13 @@
 
     <EditText
         android:id="@+id/email"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginRight="36dp"
         android:background="@drawable/border"
         android:drawableLeft="@drawable/emil"
         android:ems="10"
@@ -43,9 +51,13 @@
 
     <EditText
         android:id="@+id/Password"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginRight="36dp"
         android:background="@drawable/border"
         android:drawableLeft="@drawable/password"
         android:ems="10"
@@ -60,9 +72,13 @@
 
     <EditText
         android:id="@+id/confirm_password_txt"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginRight="36dp"
         android:background="@drawable/border"
         android:drawableLeft="@drawable/password"
         android:ems="10"
@@ -79,30 +95,30 @@
         android:id="@+id/signup_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="36dp"
         android:background="@drawable/button_start"
         android:gravity="center"
         android:text="@string/SignUp"
-        app:layout_constraintTop_toBottomOf="@+id/confirm_password_txt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/confirm_password_txt" />
 
     <TextView
         android:id="@+id/login_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
         android:text="@string/haveaccount"
         android:textColor="#FF3C628A"
         android:textSize="12sp"
         android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@+id/signup_btn"
-        tools:visibility="visible"
-        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signup_btn"
+        tools:visibility="visible" />
 
     <ProgressBar
         android:id="@+id/progressBar"
