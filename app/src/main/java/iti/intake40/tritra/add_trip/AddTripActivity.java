@@ -36,6 +36,12 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
     //private String apiKey="AIzaSyBHn174_ktTUup-lFD_cO07b2cyx1_zmXE"; //zezo
     private String apiKey="AIzaSyBCXNUjza_-JQWSpFhvMgzpXQqgifH9qak"; //Awatef
     public static final String TAG = "TAG_AUTOSEARCH";
+
+    public static final String TRIP_NAME = "TRIP_NAME";
+    public static final String TRIP_START_POINT = "TRIP_START_POINT";
+    public static final String TRIP_END_POINT = "TRIP_END_POINT";
+    public static final String ALARM_ID = "ALARM_ID";
+
     TextInputEditText txtTripName;
     Button btnSave;
     Button btnAddNote;
@@ -44,11 +50,15 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
     MaterialTextView txtDate;
     MaterialTextView txtTime;
     Calendar calendar;
+    AlarmManager alarmManager;
     int tripYear;
     int tripMonth;
     int tripDay;
     int tripHour;
     int tripMinute;
+    int counter = 0 ;
+    String tripStartPoint;
+    String tripEndPoint;
 
 
     @Override
@@ -134,6 +144,7 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
                 Log.i(TAG, "S Place: " + place.getName() + ", " + place.getId());
                 Log.i(TAG, "S Place ad: " + place.getAddress() + ", " + place.getAddressComponents());
                 //Log.i(TAG, "S Place latu: " + place.getLatLng().latitude + ", long: " + place.getLatLng().longitude);
+                tripStartPoint = place.getName();
             }
 
             @Override
@@ -157,6 +168,7 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+                tripEndPoint = place.getName();
             }
 
             @Override
@@ -168,16 +180,39 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
     }
 
     private void createAlarm(){
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(tripYear,tripMonth,tripDay,tripHour,tripMinute,0);
-        Intent tripAlarmIntent = new Intent(AddTripActivity.this, AlarmReceiver.class);
-        PendingIntent tripAlarmPendingIntent = PendingIntent.getBroadcast(AddTripActivity.this,0,tripAlarmIntent,0);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        setCalender();
+        Intent tripAlarmIntent = configAlarmIntent();
+        int tripAlarmPendintgIntentRequestCode = generateId();
+        PendingIntent tripAlarmPendingIntent = PendingIntent.getBroadcast(AddTripActivity.this
+                ,tripAlarmPendintgIntentRequestCode,
+                tripAlarmIntent,
+                PendingIntent.FLAG_ONE_SHOT);
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //Android kitkat or above
             alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),tripAlarmPendingIntent);
         }else{
+            //Android bel
             alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),tripAlarmPendingIntent);
         }
+    }
+
+    private void setCalender(){
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(tripYear,tripMonth,tripDay,tripHour,tripMinute,0);
+    }
+
+    private Intent configAlarmIntent(){
+        Intent tripAlarmIntent = new Intent(AddTripActivity.this, AlarmReceiver.class);
+        tripAlarmIntent.putExtra(TRIP_NAME,txtTripName.getText().toString());
+        tripAlarmIntent.putExtra(TRIP_START_POINT,tripStartPoint);
+        tripAlarmIntent.putExtra(TRIP_END_POINT,tripEndPoint);
+        return  tripAlarmIntent;
+    }
+
+    private int generateId(){
+        counter += 1;
+        return counter;
     }
 
 
