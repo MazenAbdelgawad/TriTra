@@ -36,19 +36,17 @@
 
         <activity
             android:name=".HistoryMap"
-            android:label="@string/title_activity_history_map">
-        </activity>
+            android:label="@string/title_activity_history_map"></activity>
 
         <activity
             android:name=".history_note_dialog.NoteDialogActivity"
-            android:theme="@style/NoActionBarForDialog">
-        </activity>
+            android:theme="@style/NoActionBarForDialog"></activity>
         <activity android:name=".add_trip.AddTripActivity" />
+
         <service
             android:name=".floating_head.HeadService"
             android:enabled="true"
-            android:exported="true">
-        </service>
+            android:exported="true"></service>
 
         <activity
             android:name=".alarm.AlarmActivity"
@@ -87,7 +85,7 @@
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+            android:value="@string/facebook_app_id" />
 
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -98,8 +96,10 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
