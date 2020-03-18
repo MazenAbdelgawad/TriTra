@@ -43,9 +43,14 @@ public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecycler
         holder.txtTripName.setText(tripsList.get(position).getName());
         holder.txtTripType.setText(tripsList.get(position).getType());
         holder.txtTripTime.setText(tripsList.get(position).getTime());
-        holder.txtTripDate.setText(tripsList.get(position).getDate());
+        String[] date = tripsList.get(position).getDate().split("-");
+        int tripYear =Integer.parseInt(date[0]);
+        int tripMonth = Integer.parseInt(date[1])+1;
+        int tripDay = Integer.parseInt(date[2]);
+        holder.txtTripDate.setText(tripYear+"-"+tripMonth+"-"+tripDay);
         holder.txtTripStartPoint.setText(tripsList.get(position).getStartPoint());
         holder.txtTripEndPoint.setText(tripsList.get(position).getEndPoint());
+        holder.txtTripStatus.setText(tripsList.get(position).getStatus());
 
         holder.btnNotes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +65,7 @@ public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecycler
             @Override
             public void onClick(View v) {
                 Toast.makeText(holder.layout.getContext(), "btnDelete", Toast.LENGTH_SHORT).show();
+                noteInterface.deleteTrip(tripsList.get(position).getId());
             }
         });
     }
@@ -81,6 +87,7 @@ public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecycler
         TextView txtTripTime;
         TextView txtTripStartPoint;
         TextView txtTripEndPoint;
+        TextView txtTripStatus;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -93,6 +100,7 @@ public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecycler
             txtTripStartPoint = itemView.findViewById(R.id.card_txt_trip_start_point);
             txtTripName = itemView.findViewById(R.id.card_txt_trip_name);
             txtTripType = itemView.findViewById(R.id.card_txt_trip_type);
+            txtTripStatus = itemView.findViewById(R.id.card_txt_trip_status);
         }
     }
 

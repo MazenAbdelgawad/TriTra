@@ -41,12 +41,12 @@
         </receiver>
 
         <activity
-            android:name=".Navigation.NavigationDraw"
+            android:name=".navigation.NavigationDraw"
             android:label="@string/upcoming"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".notes.NoteActivity"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".navigation.NavigationDraw"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".home.HomeActivity" />
         <activity android:name=".signup.SignUp" />

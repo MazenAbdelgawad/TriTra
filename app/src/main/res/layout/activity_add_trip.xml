@@ -177,12 +177,12 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <Button
-                android:id="@+id/btn_add_note"
+                android:id="@+id/btn_add_note_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
                 android:layout_weight="1"
-                android:text="@string/add_notes"
+                android:text="@string/cancel"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
         </LinearLayout>

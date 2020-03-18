@@ -15,4 +15,20 @@ public class AddTripPresenter implements AddTripContract.PresenterInterface {
         Database.getInstance().addTrip(tripModel, userId);
     }
 
+    @Override
+    public void getTripForEdit(String userId, String tripId) {
+        Database.getInstance().getTripForEdit(userId,tripId,this);
+    }
+
+    @Override
+    public void SetTripForEdit(TripModel tripModel) {
+        viewInterface.SetTripForEdit(tripModel);
+    }
+
+    @Override
+    public void updateTrip(TripModel tripModel, String userId) {
+        Database.getInstance().updateTrip(tripModel,userId);
+    }
+
+
 }

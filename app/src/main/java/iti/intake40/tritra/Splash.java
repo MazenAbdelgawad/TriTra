@@ -7,17 +7,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-
-import iti.intake40.tritra.Navigation.NavigationDraw;
+import iti.intake40.tritra.navigation.NavigationDraw;
 import iti.intake40.tritra.home.HomeActivity;
 import iti.intake40.tritra.login.LoginActivity;
-import iti.intake40.tritra.signup.SignUp;
 
 public class Splash extends AppCompatActivity {
 

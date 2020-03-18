@@ -48,7 +48,7 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_marginBottom="20dp"
-            android:src="@drawable/ic_notes" />
+            android:src="@drawable/ic_trip" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"

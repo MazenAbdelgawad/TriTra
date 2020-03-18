@@ -41,7 +41,7 @@ public class HomePresenter implements HomeContract.PresenterInterface {
 
     @Override
     public void editTrip(int pos) {
-        //ToDO: Edit Trip
+        viewInterface.openTripActivityForEdit(tripsList.get(pos).getId());
         viewInterface.displayMessage("Done Edit"+tripsList.get(pos).getName());
     }
 
@@ -57,8 +57,12 @@ public class HomePresenter implements HomeContract.PresenterInterface {
 
     @Override
     public void moveTripToHistory(TripModel tripModel, String userId) {
-        Database.getInstance().deleteTrip(tripModel.getId(),userId);
+        //Database.getInstance().deleteTrip(tripModel.getId(),userId);
         Database.getInstance().addTripHistory(tripModel,userId);
     }
 
+    @Override
+    public void createRuturnTrip(TripModel trip, String userId) {
+        Database.getInstance().createRuturnTrip(trip,userId);
+    }
 }

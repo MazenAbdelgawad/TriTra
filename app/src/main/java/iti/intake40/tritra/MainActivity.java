@@ -1,16 +1,14 @@
 package iti.intake40.tritra;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import iti.intake40.tritra.Navigation.NavigationDraw;
+import iti.intake40.tritra.navigation.NavigationDraw;
 import iti.intake40.tritra.add_trip.AddTripActivity;
 import iti.intake40.tritra.home.HomeActivity;
 import iti.intake40.tritra.home.HomeFragment;
 import iti.intake40.tritra.login.LoginActivity;
-import iti.intake40.tritra.model.Database;
 import iti.intake40.tritra.model.NoteModel;
 import iti.intake40.tritra.model.TripModel;
 import iti.intake40.tritra.model.UserModle;
@@ -19,17 +17,8 @@ import iti.intake40.tritra.signup.SignUp;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import iti.intake40.tritra.login.LoginActivity;
-import iti.intake40.tritra.signup.SignUp;
 
 
 public class MainActivity extends AppCompatActivity {

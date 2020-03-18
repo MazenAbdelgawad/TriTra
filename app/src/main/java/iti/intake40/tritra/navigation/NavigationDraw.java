@@ -1,4 +1,4 @@
-package iti.intake40.tritra.Navigation;
+package iti.intake40.tritra.navigation;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,11 +21,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import iti.intake40.tritra.MainActivity;
 import iti.intake40.tritra.R;
 import iti.intake40.tritra.history.HistoryFragment;
 import iti.intake40.tritra.home.HomeFragment;

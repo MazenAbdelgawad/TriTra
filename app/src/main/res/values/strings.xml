@@ -23,6 +23,10 @@
     <string name="type_of_trip">Type of trip</string>
     <string name="history">History</string>
     <string name="upcoming">Upcoming</string>
+    <string name="cancel">CANCEL</string>
+    <string name="yes">YES</string>
+    <string name="delete_warning">Delete Warning..! </string>
+    <string name="delete_question">Are you want to delete this trip ?</string>
     <!--end Mazen-->
     <!--Awatef-->
     <string name="login">login</string>

@@ -12,8 +12,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import iti.intake40.tritra.MainActivity;
-import iti.intake40.tritra.Navigation.NavigationDraw;
 import iti.intake40.tritra.R;
 import iti.intake40.tritra.login.LoginActivity;
 import iti.intake40.tritra.model.UserModle;

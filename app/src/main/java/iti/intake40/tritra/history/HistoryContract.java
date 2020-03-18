@@ -9,7 +9,7 @@ public interface HistoryContract {
     interface PresenterInterface {
         void setTrips(List<TripModel> trips);
         void getTrips(String userId);
-        void deleteTrip(int pos,String userId);
+        void deleteTrip(String tripId,String userId);
     }
 
     interface ViewInterface {

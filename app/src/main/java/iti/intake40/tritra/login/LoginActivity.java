@@ -33,8 +33,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import iti.intake40.tritra.MainActivity;
-import iti.intake40.tritra.Navigation.NavigationDraw;
+import iti.intake40.tritra.navigation.NavigationDraw;
 import iti.intake40.tritra.R;
 import iti.intake40.tritra.home.HomeFragment;
 import iti.intake40.tritra.model.Database;

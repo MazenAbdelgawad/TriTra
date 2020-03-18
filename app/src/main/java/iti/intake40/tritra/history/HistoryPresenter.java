@@ -39,8 +39,8 @@ public class HistoryPresenter implements HistoryContract.PresenterInterface {
     }
 
     @Override
-    public void deleteTrip(int pos,String userId) {
-        Database.getInstance().deleteTripHistory(tripsList.get(pos).getId(),userId);
+    public void deleteTrip(String tripId,String userId) {
+        Database.getInstance().deleteTripHistory(tripId,userId);
     }
 
 

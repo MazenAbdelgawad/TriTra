@@ -43,9 +43,10 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
     //private String apiKey="AIzaSyBHn174_ktTUup-lFD_cO07b2cyx1_zmXE"; //zezo
     private String apiKey="AIzaSyBCXNUjza_-JQWSpFhvMgzpXQqgifH9qak"; //Awatef
     public static final String TAG = "TAG_AUTOSEARCH";
+    public static final String TRIP_ID="TRIP_ID";
     TextInputEditText txtTripName;
     Button btnSave;
-    Button btnAddNote;
+    Button btnAddNoteCancel;
     Button btnDate;
     Button btnTime;
     MaterialTextView txtDate;
@@ -66,6 +67,9 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
 
     AddTripContract.PresenterInterface presenterInterface;
 
+    AutocompleteSupportFragment acfStartPoint;
+    AutocompleteSupportFragment acfEndpoint;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +81,7 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
 
         txtTripName = findViewById(R.id.txt_trip_name);
         btnSave = findViewById(R.id.btn_save);
-        btnAddNote = findViewById(R.id.btn_add_note);
+        btnAddNoteCancel = findViewById(R.id.btn_add_note_cancel);
         btnDate = findViewById(R.id.btn_date);
         btnTime = findViewById(R.id.btn_time);
         txtDate = findViewById(R.id.txt_date);
@@ -85,7 +89,11 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
         tglBtnTripType = findViewById(R.id.tgl_btn_trip_type);
         spinerContainerLayout = findViewById(R.id.spiner_container);
 
-        trip = new TripModel();
+        if(getIntent().getStringExtra(TRIP_ID)== null)
+            trip = new TripModel();
+        else{
+            presenterInterface.getTripForEdit(userId,getIntent().getStringExtra(TRIP_ID));
+        }
 
         btnDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +106,7 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
                                 tripYear = year ;
                                 tripMonth = monthOfYear;
                                 tripDay = dayOfMonth;
-                                txtDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                                txtDate.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
                             }
                         },calendar.get(Calendar.YEAR) , calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
@@ -127,10 +135,17 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
         tglBtnTripType.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                    trip.setType(TripModel.TYPE.ROUND_TRIP);
-                else
-                    trip.setType(TripModel.TYPE.ONE_DIRECTION);
+                    if(isChecked)
+                        trip.setType(TripModel.TYPE.ROUND_TRIP);
+                    else
+                        trip.setType(TripModel.TYPE.ONE_DIRECTION);
+            }
+        });
+
+        btnAddNoteCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
@@ -139,24 +154,35 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
             public void onClick(View v) {
                 if(TextUtils.isEmpty(txtTripName.getText())){
                     Snackbar.make(spinerContainerLayout, R.string.name_of_trip, Snackbar.LENGTH_SHORT).show();
-                }else if(startPoint == null){
+                }else if(startPoint == null && getIntent().getStringExtra(TRIP_ID) == null){
                     Snackbar.make(spinerContainerLayout, R.string.start_ponit_empty, Snackbar.LENGTH_SHORT).show();
-                }else if(endPoint == null){
+                }else if(endPoint == null && getIntent().getStringExtra(TRIP_ID) == null){
                     Snackbar.make(spinerContainerLayout, R.string.end_ponit_empty, Snackbar.LENGTH_SHORT).show();
                 }else if(tripYear==0 || tripMonth==0 || tripDay==0){
                     Snackbar.make(spinerContainerLayout, R.string.date_empty, Snackbar.LENGTH_SHORT).show();
-                }else if(tripHour==0 || tripMinute==0) {
+                }else if(tripHour==0 || tripMinute<0) {
                     Snackbar.make(spinerContainerLayout, R.string.time_empty, Snackbar.LENGTH_SHORT).show();
                 }else{
                     trip.setName(txtTripName.getText().toString());
-                    trip.setStartPoint(startPoint.getName());
-                    trip.setEndPoint(endPoint.getName());
                     trip.setDate(tripYear+"-"+tripMonth+"-"+tripDay);
                     trip.setTime(tripHour+":"+tripMinute);
                     trip.setStatus(TripModel.STATUS.UPCOMING);
-                    presenterInterface.addTrip(trip,userId);
+                    if(getIntent().getStringExtra(TRIP_ID) == null){
+                        trip.setStartPoint(startPoint.getName());
+                        trip.setEndPoint(endPoint.getName());
+                        presenterInterface.addTrip(trip,userId);
+                    }
+                    else{
+                        if(startPoint != null)
+                            trip.setStartPoint(startPoint.getName());
+                        if(endPoint != null)
+                            trip.setEndPoint(endPoint.getName());
+                        presenterInterface.updateTrip(trip,userId);
+                        //Todo: ZEYAD Clear Last Alarm !!
+                    }
                     createAlarm();
                     Toast.makeText(AddTripActivity.this,"Alarm set on" + tripHour + tripMinute,Toast.LENGTH_LONG).show();
+                    finish();
                 }
             }
         });
@@ -164,7 +190,7 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
         //StartPoint
         Places.initialize(getApplicationContext(), apiKey);
         PlacesClient placesClient = Places.createClient(this);
-        final AutocompleteSupportFragment acfStartPoint = (AutocompleteSupportFragment)
+        acfStartPoint = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment_startpoint);
         acfStartPoint.setHint(getString(R.string.select_start_point));
         acfStartPoint.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
@@ -181,7 +207,7 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
             }
         });
         //EndPoint
-        AutocompleteSupportFragment acfEndpoint = (AutocompleteSupportFragment)
+        acfEndpoint = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment_endpoint);
         acfEndpoint.setHint(getString(R.string.select_end_point));
         acfEndpoint.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
@@ -213,5 +239,32 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
         }
     }
 
+    @Override
+    public void SetTripForEdit(TripModel tripModel) {
+        if(tripModel == null)
+            this.trip = new TripModel();
+        else{
+            this.trip = tripModel;
+            txtTripName.setText(trip.getName());
+            txtTime.setText(trip.getTime());
+            String[] date = trip.getDate().split("-");
+            String[] time = trip.getTime().split(":");
+            tripYear =Integer.parseInt(date[0]);
+            tripMonth = Integer.parseInt(date[1]);
+            tripDay = Integer.parseInt(date[2]);
+            tripHour = Integer.parseInt(time[0]);
+            tripMinute = Integer.parseInt(time[1]);
+            calendar.set(tripYear,tripMonth,tripDay,tripHour,tripMinute);
+            txtDate.setText(tripYear+"-"+(tripMonth+1)+"-"+tripDay);
+            acfStartPoint.setText(trip.getStartPoint());
+            acfEndpoint.setText(trip.getEndPoint());
+            if(trip.getType().equals(TripModel.TYPE.ROUND_TRIP))
+                tglBtnTripType.setChecked(true);
+            else
+                tglBtnTripType.setChecked(false);
+            if(trip.getStatus().equals(TripModel.STATUS.GO))
+                tglBtnTripType.setClickable(false);
+        }
+    }
 
 }

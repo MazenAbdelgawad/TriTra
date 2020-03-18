@@ -27,5 +27,9 @@ public class HistoryNotesPresenter implements HistoryNotesContract.PresenterInte
         viewInterface.updateNoteList(notes);
     }
 
+    @Override
+    public void updateNoteStaus(NoteModel noteModel, String tripId) {
+        Database.getInstance().updateNote(noteModel,tripid);
+    }
 
 }
