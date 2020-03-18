@@ -73,8 +73,7 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
     String userId;
 
     int counter = 0 ;
-    String tripStartPoint;
-    String tripEndPoint;
+
 
     AddTripContract.PresenterInterface presenterInterface;
 
@@ -208,7 +207,6 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
             @Override
             public void onPlaceSelected(Place place) {
                 startPoint = place;
-                tripStartPoint = place.getName();
             }
 
             @Override
@@ -227,7 +225,6 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
             public void onPlaceSelected(Place place) {
                 endPoint = place;
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-                tripEndPoint = place.getName();
             }
 
             @Override
@@ -265,14 +262,14 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
     private Intent configAlarmIntent(){
         Intent tripAlarmIntent = new Intent(AddTripActivity.this, AlarmReceiver.class);
         tripAlarmIntent.putExtra(TRIP_NAME,txtTripName.getText().toString());
-        tripAlarmIntent.putExtra(TRIP_START_POINT,tripStartPoint);
-        tripAlarmIntent.putExtra(TRIP_END_POINT,tripEndPoint);
+        tripAlarmIntent.putExtra(TRIP_START_POINT,trip.getStartPoint());
+        tripAlarmIntent.putExtra(TRIP_END_POINT,trip.getEndPoint());
         return  tripAlarmIntent;
     }
 
     private int generateId(){
-        counter += 1;
-        return counter;
+        int x =Integer.parseInt(tripYear+""+tripMonth+""+tripDay+""+tripHour+""+tripMinute);
+        return x;
     }
 
 
