@@ -40,8 +40,8 @@ public class NoteActivity extends AppCompatActivity implements NotesContract.Vie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DatabaseReference scoresRef = FirebaseDatabase.getInstance().getReference("note");
-        scoresRef.keepSynced(true);
+       /* DatabaseReference scoresRef = FirebaseDatabase.getInstance().getReference("note");
+        scoresRef.keepSynced(true);*/
        /* scoresRef.orderByValue().limitToLast(10).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, String previousChild) {

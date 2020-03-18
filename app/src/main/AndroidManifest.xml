@@ -3,9 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="iti.intake40.tritra">
 
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -15,14 +22,33 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".history_note_dialog.NoteDialogActivity"
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".HistoryMap"
+            android:label="@string/title_activity_history_map">
+        </activity>
+
+        <activity
+            android:name=".history_note_dialog.NoteDialogActivity"
             android:theme="@style/NoActionBarForDialog">
         </activity>
         <activity android:name=".add_trip.AddTripActivity" />
         <service
             android:name=".floating_head.HeadService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true">
+        </service>
 
         <activity
             android:name=".alarm.AlarmActivity"
@@ -46,7 +72,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".notes.NoteActivity"
-            android:parentActivityName=".navigation.NavigationDraw"
+            android:parentActivityName=".home.HomeActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".home.HomeActivity" />
         <activity android:name=".signup.SignUp" />
@@ -59,12 +85,13 @@
             </intent-filter>
         </activity>
 
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
 
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
         <activity
             android:name="com.facebook.CustomTabActivity"

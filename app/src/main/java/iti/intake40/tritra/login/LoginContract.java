@@ -11,5 +11,6 @@ public interface LoginContract {
         void  showProgress();
         void redirectId(String s,String id);
          void writeShredPreference(String id,String email);
+        boolean isNetworkAvailable();
     }
 }

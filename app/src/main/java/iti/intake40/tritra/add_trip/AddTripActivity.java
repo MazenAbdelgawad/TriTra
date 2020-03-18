@@ -29,6 +29,8 @@ import com.google.android.libraries.places.api.Places;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -74,7 +76,6 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_trip);
-
         presenterInterface = new AddTripPresenter(this);
         userId = getIntent().getStringExtra(HomeFragment.USERID);
         calendar = Calendar.getInstance();

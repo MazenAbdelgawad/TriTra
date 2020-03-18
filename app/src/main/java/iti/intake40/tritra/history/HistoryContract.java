@@ -10,6 +10,7 @@ public interface HistoryContract {
         void setTrips(List<TripModel> trips);
         void getTrips(String userId);
         void deleteTrip(String tripId,String userId);
+        List<TripModel> getTrips();
     }
 
     interface ViewInterface {

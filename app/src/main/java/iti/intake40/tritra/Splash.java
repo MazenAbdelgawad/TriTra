@@ -13,15 +13,19 @@ import iti.intake40.tritra.home.HomeActivity;
 import iti.intake40.tritra.login.LoginActivity;
 
 public class Splash extends AppCompatActivity {
-
+  /*  static {
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+    }*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 SharedPreferences mPrefs = getSharedPreferences("myAppPrefs", Context.MODE_PRIVATE);
                 if (mPrefs.getBoolean("is_logged_before",false))  {
                     Intent intent = new Intent(getApplicationContext(), NavigationDraw.class);

@@ -19,6 +19,7 @@ SignupContract.ViewInterface viewInterface;
 
    @Override
     public void signUpUser(final UserModle user, String password) {
+       if(viewInterface.isNetworkAvailable()){
        mAuth = FirebaseAuth.getInstance();
        viewInterface.showProgress();
        mAuth.createUserWithEmailAndPassword(user.getEmail(),password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -39,6 +40,9 @@ SignupContract.ViewInterface viewInterface;
 
            }
        });
+    }else{
+           viewInterface.displayMessage("check network connection");
+       }
     }
 
 
