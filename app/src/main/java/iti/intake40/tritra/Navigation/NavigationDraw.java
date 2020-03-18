@@ -21,6 +21,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,15 +37,17 @@ public class NavigationDraw extends AppCompatActivity  {
     String email;
     private AppBarConfiguration mAppBarConfiguration;
     Toolbar toolbar;
+    TextView toolbarTitle;
+    Button map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_navigation);
+        toolbarTitle = findViewById(R.id.toolbar_title);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        map=findViewById(R.id.toolbar_btn_history_map);
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle
                 (this,drawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
@@ -80,14 +83,18 @@ public class NavigationDraw extends AppCompatActivity  {
                         Toast.makeText(NavigationDraw.this,"Log Out",Toast.LENGTH_LONG).show();
                         break;
                     case  R.id.nav_home:
+                        map.setVisibility(View.INVISIBLE);
                         selectedFregment=new HomeFragment();
                         getSupportFragmentManager().beginTransaction().replace( R.id.nav_host_fragment,selectedFregment).commit();
                         toolbar.setTitle(R.string.upcoming);
+                        toolbarTitle.setText(R.string.upcoming);
                         break;
                     case R.id.nav_gallery:
+                        map.setVisibility(View.VISIBLE);
                         selectedFregment=new HistoryFragment() ;
                         getSupportFragmentManager().beginTransaction().replace( R.id.nav_host_fragment,selectedFregment).commit();
                         toolbar.setTitle(R.string.history);
+                        toolbarTitle.setText(R.string.history);
                         break;
                 }
                 drawer.closeDrawers();

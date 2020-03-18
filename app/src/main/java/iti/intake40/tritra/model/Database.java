@@ -20,6 +20,7 @@ public class Database {
 
     private Database() {
         dbReference = FirebaseDatabase.getInstance();
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 
     private static class SingletonHelper{

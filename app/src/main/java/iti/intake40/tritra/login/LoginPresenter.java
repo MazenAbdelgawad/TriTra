@@ -24,6 +24,7 @@ LoginContract.ViewInterface viewInterface;
 
     @Override
     public void loginUser(String email, String password) {
+        if(viewInterface.isNetworkAvailable()){
         mAuth = FirebaseAuth.getInstance();
         viewInterface.showProgress();
         mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -47,5 +48,10 @@ LoginContract.ViewInterface viewInterface;
             }
         });
     }
+    else{
+        viewInterface.displayMessage("check network connection");
+    }
+    }
+
 
 }

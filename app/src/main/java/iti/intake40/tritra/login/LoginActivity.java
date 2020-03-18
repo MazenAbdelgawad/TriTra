@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -66,6 +68,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+       /* DatabaseReference loginRef = FirebaseDatabase.getInstance().getReference("user");
+        loginRef.keepSynced(true);*/
         setupViews();
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -231,6 +235,13 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
             progressBar.setVisibility(View.INVISIBLE);
         else
             progressBar.setVisibility(View.VISIBLE);
+    }
+    @Override
+    public boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
 }

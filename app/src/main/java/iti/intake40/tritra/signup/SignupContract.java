@@ -14,5 +14,6 @@ public interface SignupContract {
         void displayMessage(String message);
         void redirectId(String s);
          void showProgress();
+        boolean isNetworkAvailable();
     }
 }
