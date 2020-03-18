@@ -42,7 +42,7 @@
         android:ems="10"
         android:gravity="center"
         android:hint="enter your email"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
