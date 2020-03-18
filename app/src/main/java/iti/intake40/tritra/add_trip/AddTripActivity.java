@@ -268,7 +268,7 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
     }
 
     private int generateId(){
-        int x =Integer.parseInt(tripYear+""+tripMonth+""+tripDay+""+tripHour+""+tripMinute);
+        int x =Integer.parseInt(tripMonth+""+tripDay+""+tripHour+""+tripMinute);
         return x;
     }
 

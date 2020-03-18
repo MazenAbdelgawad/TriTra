@@ -13,6 +13,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.ui.AppBarConfiguration;
 
+import com.facebook.login.LoginManager;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -107,6 +108,7 @@ public class NavigationDraw extends AppCompatActivity  {
 
 
     public void logout(){
+        LoginManager.getInstance().logOut();
         FirebaseAuth.getInstance().signOut();
         SharedPreferences mPrefs = getSharedPreferences("myAppPrefs", Context.MODE_PRIVATE);
         mPrefs.edit().putBoolean("is_logged_before",false).commit();
