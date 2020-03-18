@@ -43,7 +43,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.txtTripName.setText(tripsList.get(position).getName());
         holder.txtTripType.setText(tripsList.get(position).getType());
         holder.txtTripTime.setText(tripsList.get(position).getTime());
-        holder.txtTripDate.setText(tripsList.get(position).getDate());
+        String[] date = tripsList.get(position).getDate().split("-");
+        int tripYear =Integer.parseInt(date[0]);
+        int tripMonth = Integer.parseInt(date[1])+1;
+        int tripDay = Integer.parseInt(date[2]);
+        holder.txtTripDate.setText(tripYear+"-"+tripMonth+"-"+tripDay);
         holder.txtTripStartPoint.setText(tripsList.get(position).getStartPoint());
         holder.txtTripEndPoint.setText(tripsList.get(position).getEndPoint());
 
@@ -51,6 +55,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 Toast.makeText(holder.layout.getContext(), "btnNotes", Toast.LENGTH_SHORT).show();
+                cardMenuInterface.openNotes(tripsList.get(position).getId());
             }
         });
 
@@ -66,6 +71,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 Toast.makeText(holder.layout.getContext(), "btnStart", Toast.LENGTH_SHORT).show();
+                cardMenuInterface.startTrip(tripsList.get(position));
             }
         });
     }

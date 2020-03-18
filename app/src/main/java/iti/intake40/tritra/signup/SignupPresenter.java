@@ -19,6 +19,7 @@ SignupContract.ViewInterface viewInterface;
 
    @Override
     public void signUpUser(final UserModle user, String password) {
+       if(viewInterface.isNetworkAvailable()){
        mAuth = FirebaseAuth.getInstance();
        viewInterface.showProgress();
        mAuth.createUserWithEmailAndPassword(user.getEmail(),password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -30,13 +31,18 @@ SignupContract.ViewInterface viewInterface;
                    user.setId(mAuth.getCurrentUser().getUid());
                    Database.getInstance().addUser(user);
                    viewInterface.redirectId(user.getId());
+
                }
                else{
                    viewInterface.displayMessage("user already exist");
+                   viewInterface.showProgress();
                }
 
            }
        });
+    }else{
+           viewInterface.displayMessage("check network connection");
+       }
     }
 
 

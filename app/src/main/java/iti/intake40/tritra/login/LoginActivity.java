@@ -3,7 +3,11 @@ package iti.intake40.tritra.login;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -31,11 +35,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import iti.intake40.tritra.MainActivity;
+import iti.intake40.tritra.navigation.NavigationDraw;
 import iti.intake40.tritra.R;
+import iti.intake40.tritra.home.HomeFragment;
 import iti.intake40.tritra.model.Database;
 import iti.intake40.tritra.model.UserModle;
-import iti.intake40.tritra.signup.SignupPresenter;
+import iti.intake40.tritra.signup.SignUp;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.ViewInterface {
     private CallbackManager mCallbackManager;
@@ -43,11 +48,13 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     LoginContract.PresenterInterface presenterInterface;
     ImageView img;
     EditText email,password;
-    Button login,google,face;
+    Button login,face;
     TextView signup;
     ProgressBar progressBar;
     FirebaseDatabase database ;
     DatabaseReference myRef ;
+    public static final String MYPREF="myAppPrefs";
+    SharedPreferences share;
     @Override
     protected void onStart() {
         super.onStart();
@@ -60,6 +67,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+       /* DatabaseReference loginRef = FirebaseDatabase.getInstance().getReference("user");
+        loginRef.keepSynced(true);*/
         setupViews();
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +79,13 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
             }
         });
-
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(LoginActivity.this, SignUp.class);
+                startActivity(intent);
+            }
+        });
         mAuth = FirebaseAuth.getInstance();
         registerLoginButton();
 
@@ -78,9 +93,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     private void setupViews(){
         img=findViewById(R.id.img);
         email=findViewById(R.id.name_txt);
-        password=findViewById(R.id.email_txt);
+        password=findViewById(R.id.email);
         login=findViewById(R.id.login_btn);
-        google=findViewById(R.id.google_btn);
         face=findViewById(R.id.face_btn);
         signup=findViewById(R.id.link_txv);
         progressBar=findViewById(R.id.progressBar);
@@ -111,14 +125,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void displayMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void showProgress() {
-        if (progressBar.getVisibility() == View.VISIBLE)
-            progressBar.setVisibility(View.INVISIBLE);
-        else
-            progressBar.setVisibility(View.VISIBLE);
     }
 
 
@@ -178,15 +184,10 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("Face", "signInWithCredential:success");
-
                             FirebaseUser user = mAuth.getCurrentUser();
-//                            myRef.child("userId").setValue(user.getUid());
-//                            myRef.child("userName").setValue(user.getDisplayName());
-//                            myRef.child("userMail").setValue(user.getEmail());
-                            //
+                            ////
                             UserModle userModle = new UserModle(user.getUid(),user.getDisplayName(),user.getEmail());
                             Database.getInstance().addUser(userModle);
-                            System.out.println("USER Firebase ID= "+ userModle.getId());
                             ////
                             updateUI(user);
                         } else {
@@ -200,6 +201,46 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                         // ...
                     }
                 });
+    }
+
+    @Override
+    public void writeShredPreference(String id,String email) {
+        //mPrefs = mContext.getSharedPreferences("myAppPrefs", Context.MODE_PRIVATE);
+        //SharedPreferences.Editor editor = mPrefs.edit();
+        //editor.putString("userId", result.get("uid"));
+        //editor.putBoolean("is_logged_before",true); //this line will do trick
+        //editor.commit();
+        share=getSharedPreferences(MYPREF, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=share.edit();
+        editor.putString("id",id);
+        editor.putString("email",email);
+        editor.putBoolean("is_logged_before",true);
+        editor.commit();
+
+    }
+
+    @Override
+    public void redirectId(String s,String id) {
+        Intent intent=new Intent(LoginActivity.this, NavigationDraw.class);
+        intent.putExtra(HomeFragment.USERID,id);
+        intent.putExtra(NavigationDraw.EMAil,s);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void showProgress() {
+        if (progressBar.getVisibility() == View.VISIBLE)
+            progressBar.setVisibility(View.INVISIBLE);
+        else
+            progressBar.setVisibility(View.VISIBLE);
+    }
+    @Override
+    public boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
 }

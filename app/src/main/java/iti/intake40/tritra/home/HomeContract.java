@@ -11,12 +11,14 @@ public interface HomeContract {
         void getTrips(String userId);
         void editTrip(int pos);
         void deleteTrip(int pos,String userId);
+        void moveTripToHistory(TripModel tripModel,String userId);
+        void createRuturnTrip(TripModel tripModel,String userId);
     }
 
     interface ViewInterface {
         void displayTrips(List<TripModel> tripsList);
         void displayNoTrips();
         void displayMessage(String msg);
-
+        void openTripActivityForEdit(String tripId);
     }
 }

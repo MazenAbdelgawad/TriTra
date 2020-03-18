@@ -19,6 +19,7 @@ import java.util.List;
 
 import iti.intake40.tritra.R;
 import iti.intake40.tritra.history.HistoryContract;
+import iti.intake40.tritra.model.Database;
 import iti.intake40.tritra.model.NoteModel;
 import iti.intake40.tritra.notes.NoteActivity;
 import iti.intake40.tritra.notes.NoteAdapter;
@@ -34,6 +35,8 @@ public class NoteDialogActivity extends AppCompatActivity implements HistoryNote
     String tripid;
     HistoryNoteAdapter adapter;
     LinearLayout noNotesLayouts;
+    public static final String CLICKABLE = "CLICKABLE";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +47,11 @@ public class NoteDialogActivity extends AppCompatActivity implements HistoryNote
 
         this.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        btnClose=findViewById(R.id.btn_note_close);
-        recyclerView=findViewById(R.id.recycle_nodeHistory);
+        btnClose = findViewById(R.id.btn_note_close);
+        recyclerView = findViewById(R.id.recycle_nodeHistory);
         noNotesLayouts = findViewById(R.id.no_notes_layout);
 
-        Intent receivedintent =getIntent();
-        tripid=receivedintent.getStringExtra(NoteActivity.TRIP_ID_KEY);
+        tripid = getIntent().getStringExtra(NoteActivity.TRIP_ID_KEY);
 
         presenterInterface = new HistoryNotesPresenter(this);
         presenterInterface.getAllNotes(tripid);
@@ -64,17 +66,25 @@ public class NoteDialogActivity extends AppCompatActivity implements HistoryNote
 
     @Override
     public void updateNoteList(List<NoteModel> notes) {
-        if(notes != null && notes.size() > 0) {
+        if (notes != null && notes.size() > 0) {
             noNotesLayouts.setVisibility(View.INVISIBLE);
             recyclerView.setVisibility(View.VISIBLE);
             layoutManager = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(layoutManager);
-            adapter = new HistoryNoteAdapter(getApplicationContext(), notes);
+            if (getIntent().getStringExtra(CLICKABLE) == null)
+                adapter = new HistoryNoteAdapter(getApplicationContext(), notes, this, false);
+            else
+                adapter = new HistoryNoteAdapter(getApplicationContext(), notes, this, true);
             recyclerView.setAdapter(adapter);
-        }else{
+        } else {
             noNotesLayouts.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @Override
+    public void updateNoteStaus(NoteModel noteModel) {
+        presenterInterface.updateNoteStaus(noteModel, tripid);
     }
 
 }

@@ -1,8 +1,11 @@
 package iti.intake40.tritra.history;
 
+import android.content.Intent;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import iti.intake40.tritra.HistoryMap;
 import iti.intake40.tritra.model.Database;
 import iti.intake40.tritra.model.TripModel;
 
@@ -39,10 +42,13 @@ public class HistoryPresenter implements HistoryContract.PresenterInterface {
     }
 
     @Override
-    public void deleteTrip(int pos,String userId) {
-        Database.getInstance().deleteTripHistory(tripsList.get(pos).getId(),userId);
+    public void deleteTrip(String tripId,String userId) {
+        Database.getInstance().deleteTripHistory(tripId,userId);
     }
 
-
+    @Override
+    public  List<TripModel> getTrips(){
+        return tripsList;
+    }
 
 }

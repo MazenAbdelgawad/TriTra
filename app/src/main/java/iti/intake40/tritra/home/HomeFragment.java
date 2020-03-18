@@ -1,6 +1,10 @@
 package iti.intake40.tritra.home;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -20,9 +24,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
+import iti.intake40.tritra.MainActivity;
 import iti.intake40.tritra.R;
+import iti.intake40.tritra.add_trip.AddTripActivity;
+import iti.intake40.tritra.alarm.AlarmActivity;
 import iti.intake40.tritra.model.Database;
 import iti.intake40.tritra.model.TripModel;
+import iti.intake40.tritra.notes.NoteActivity;
 
 
 /**
@@ -63,11 +71,15 @@ public class HomeFragment extends Fragment implements HomeContract.ViewInterface
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "ADD TRIP UID=" + userId, Toast.LENGTH_SHORT).show();
-                TripModel trip = new TripModel();
-                Database.getInstance().addTrip(trip, userId);
+                //TripModel trip = new TripModel();
+                //Database.getInstance().addTrip(trip, userId);
+                Intent intent = new Intent(getContext(), AddTripActivity.class);
+                intent.putExtra(HomeFragment.USERID,userId);
+                startActivity(intent);
             }
         });
         return root;
+
     }
 
     @Override
@@ -90,7 +102,7 @@ public class HomeFragment extends Fragment implements HomeContract.ViewInterface
     @Override
     public void displayNoTrips() {
         //TODO: displayNoTrips
-        Toast.makeText(getContext(), "NO TRIP!!!!!!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "NO TRIP!!!!!!", Toast.LENGTH_SHORT).show();
         noTripsLayout.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.INVISIBLE);
     }
@@ -105,20 +117,73 @@ public class HomeFragment extends Fragment implements HomeContract.ViewInterface
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.card_menu_edit:
-                        Toast.makeText(getContext(), "Menu EDIT"+pos, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), "Menu EDIT"+pos, Toast.LENGTH_SHORT).show();
                         presenter.editTrip(pos);
                         return true;
                     case R.id.card_menu_delete:
-                        Toast.makeText(getContext(), "Menu DELETE"+pos, Toast.LENGTH_SHORT).show();
-                        presenter.deleteTrip(pos, userId);
+                        //Toast.makeText(getContext(), "Menu DELETE"+pos, Toast.LENGTH_SHORT).show();
+                        deleteTrip(pos);
                         return true;
                     default:
-                        Toast.makeText(getContext(), "Menu Error", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), "Menu Error", Toast.LENGTH_SHORT).show();
                         return false;
                 }
             }
         });
         popup.show();
+    }
+
+    @Override
+    public void openNotes(String tripId) {
+        Intent intent=new Intent(getContext(), NoteActivity.class);
+        intent.putExtra(NoteActivity.TRIP_ID_KEY,tripId);
+        startActivity(intent);
+    }
+
+    @Override
+    public void startTrip(TripModel trip) {
+        //Intent mapsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr=" + 48.860294 + "," + 2.338629 + "&daddr=" + 48.858093 + "," + 2.294694));
+        Intent mapsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr=" + trip.getEndPoint()));
+        mapsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(mapsIntent);
+        if(trip.getType().equals(TripModel.TYPE.ROUND_TRIP) && trip.getStatus().equals(TripModel.STATUS.UPCOMING )){
+            trip.setStatus(TripModel.STATUS.GO);
+            presenter.createRuturnTrip(trip,userId);
+        }else{
+            trip.setStatus(TripModel.STATUS.DONE);
+            presenter.moveTripToHistory(trip,userId);
+        }
+
+        //add Floatin ICON
+    }
+
+    @Override
+    public void openTripActivityForEdit(String tripId){
+        Intent intent = new Intent(getContext(), AddTripActivity.class);
+        intent.putExtra(HomeFragment.USERID,userId);
+        intent.putExtra(AddTripActivity.TRIP_ID,tripId);
+        startActivity(intent);
+    }
+
+    public void deleteTrip(final int pos) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+        alertDialogBuilder.setTitle(R.string.delete_warning);
+        alertDialogBuilder
+                .setIcon(R.drawable.ic_close)
+                .setMessage(R.string.delete_question)
+                .setCancelable(false)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        presenter.deleteTrip(pos, userId);
+                    }
+                })
+                .setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
 }

@@ -9,8 +9,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
+import iti.intake40.tritra.add_trip.AddTripContract;
 import iti.intake40.tritra.history.HistoryContract;
 import iti.intake40.tritra.home.HomeContract;
 import iti.intake40.tritra.notes.NotesContract;
@@ -20,6 +22,7 @@ public class Database {
 
     private Database() {
         dbReference = FirebaseDatabase.getInstance();
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 
     private static class SingletonHelper{
@@ -41,6 +44,27 @@ public class Database {
         trip.setId(id);
         databaseReference.child(id).setValue(trip);
         System.out.println("iiidTrip= "+id);
+    }
+
+    public void updateTrip(TripModel trip,String userId){
+        DatabaseReference databaseReference = dbReference.getReference("trip").child(userId).child(trip.getId());
+        databaseReference.setValue(trip);
+    }
+
+    public void createRuturnTrip(TripModel trip,String userId){
+        DatabaseReference historyRef = dbReference.getReference("tripHistory").child(userId).child(trip.getId());
+        historyRef.setValue(trip);
+
+        String temp = trip.getStartPoint();
+        trip.setStartPoint(trip.getEndPoint());
+        trip.setEndPoint(temp);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR,7);
+        trip.setDate(calendar.get(Calendar.DAY_OF_MONTH) + "-" + (calendar.get(Calendar.MONTH)) + "-" + calendar.get(Calendar.YEAR));
+
+        DatabaseReference tripRef = dbReference.getReference("trip").child(userId).child(trip.getId());
+        tripRef.setValue(trip);
     }
 
     public void deleteTrip(String tripId,String userId){
@@ -71,6 +95,23 @@ public class Database {
             }
         });
         //homePresnter.setTrips(new ArrayList<TripModel>());
+    }
+
+    public void getTripForEdit(String userId, String tripId ,final AddTripContract.PresenterInterface Presnter){
+
+        dbReference.getReference("trip").child(userId).child(tripId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                TripModel trip =dataSnapshot.getValue(TripModel.class);
+                Presnter.SetTripForEdit(trip);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.printf("onCancelled-DatabaseError");
+                Presnter.SetTripForEdit(null);
+            }
+        });
     }
 
     public void addNote(NoteModel note,String tripId){
@@ -117,24 +158,24 @@ public class Database {
 
     ////////////////////////////////////////////////////////////////////////////
     public void addTripHistory(TripModel trip,String userId){
-        DatabaseReference databaseReference = dbReference.getReference("trip").child(userId);
-        String id = databaseReference.push().getKey();
-        trip.setId(id);
-        databaseReference.child(id).setValue(trip);
-        System.out.println("iiidTrip= "+id);
+        DatabaseReference databaseReference = dbReference.getReference("tripHistory").child(userId).child(trip.getId());
+        databaseReference.setValue(trip);
+
+        DatabaseReference drTrip = dbReference.getReference("trip").child(userId).child(trip.getId());
+        drTrip.removeValue();
     }
 
     public void deleteTripHistory(String tripId,String userId){
-        DatabaseReference drTrip = dbReference.getReference("trip").child(userId).child(tripId);
+        DatabaseReference drTrip = dbReference.getReference("tripHistory").child(userId).child(tripId);
         DatabaseReference drNote = dbReference.getReference("note").child(tripId);
         drNote.removeValue();
         drTrip.removeValue();
-        System.out.println("remove Trip = "+tripId);
+        System.out.println("remove TripHistory = "+tripId);
     }
 
     public void getTripsHistoryForUser(String userId, final HistoryContract.PresenterInterface historyPresnter){
 
-        dbReference.getReference("trip").child(userId).addValueEventListener(new ValueEventListener() {
+        dbReference.getReference("tripHistory").child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<TripModel> tripList = new ArrayList<>();

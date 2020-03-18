@@ -8,6 +8,9 @@ public interface LoginContract {
 
     interface ViewInterface {
         void displayMessage(String message);
-        void showProgress();
+        void  showProgress();
+        void redirectId(String s,String id);
+         void writeShredPreference(String id,String email);
+        boolean isNetworkAvailable();
     }
 }

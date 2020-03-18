@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import iti.intake40.tritra.history.HistoryFragment;
 import iti.intake40.tritra.R;
@@ -31,8 +33,8 @@ public class HomeActivity extends AppCompatActivity //implements HomeContract.Vi
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        //fragmentTransaction.replace(R.id.dynamic_fragment,new HomeFragment());
-        fragmentTransaction.replace(R.id.dynamic_fragment,new HistoryFragment());
+        fragmentTransaction.replace(R.id.dynamic_fragment,new HomeFragment());
+        //fragmentTransaction.replace(R.id.dynamic_fragment,new HistoryFragment());
         fragmentTransaction.commit();
 
 

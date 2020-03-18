@@ -1,35 +1,24 @@
 package iti.intake40.tritra;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
+import iti.intake40.tritra.navigation.NavigationDraw;
 import iti.intake40.tritra.add_trip.AddTripActivity;
 import iti.intake40.tritra.home.HomeActivity;
+import iti.intake40.tritra.home.HomeFragment;
 import iti.intake40.tritra.login.LoginActivity;
-import iti.intake40.tritra.model.Database;
 import iti.intake40.tritra.model.NoteModel;
 import iti.intake40.tritra.model.TripModel;
 import iti.intake40.tritra.model.UserModle;
 import iti.intake40.tritra.notes.NoteActivity;
 import iti.intake40.tritra.signup.SignUp;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import iti.intake40.tritra.login.LoginActivity;
-import iti.intake40.tritra.signup.SignUp;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -47,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         /////////
 
         //Awatef
+//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         signup=findViewById(R.id.next);
         login=findViewById(R.id.button);
         signup.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent i=new Intent(MainActivity.this, SignUp.class);
+                i.putExtra(HomeFragment.USERID,"id5");
                 startActivity(i);
 
 
@@ -68,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
     public void openHome(View view) {
         Toast.makeText(this, "Count= "+noteList.size(), Toast.LENGTH_SHORT).show();
 
-       Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-        intent.putExtra(HomeActivity.USERID,"id5");
+       Intent intent = new Intent(MainActivity.this, NavigationDraw.class);
+       intent.putExtra(HomeActivity.USERID,"id5");
        startActivity(intent);
 
         UserModle userModle = new UserModle();

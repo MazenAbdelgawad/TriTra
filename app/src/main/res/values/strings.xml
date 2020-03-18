@@ -13,12 +13,43 @@
     <string name="delete">Delete</string>
     <string name="no_trips_history">There are currently no trips in your history list. You didn\'t finish any trip yet!</string>
     <string name="no_nodes_history">You didn\'t add any notes to this trip!</string>
+    <string name="name_of_trip">Enter name of trip!</string>
+    <string name="start_ponit_empty">Start point can\'t be Empty!</string>
+    <string name="end_ponit_empty">End point can\'t be Empty!</string>
+    <string name="date_empty">Date can\'t be Empty!</string>
+    <string name="time_empty">Time can\'t be Empty!</string>
+    <string name="one_direction">One Direction</string>
+    <string name="round_trip">Round Trip</string>
+    <string name="type_of_trip">Type of trip</string>
+    <string name="history">History</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="cancel">CANCEL</string>
+    <string name="yes">YES</string>
+    <string name="delete_warning">Delete Warning..! </string>
+    <string name="delete_question">Are you want to delete this trip ?</string>
     <!--end Mazen-->
     <!--Awatef-->
     <string name="login">login</string>
     <string name="SignUp">Sign Up</string>
     <string name="SignIn">SignIn</string>
     <string name="haveaccount">Already have an account! login</string>
+    <string name="drawerOpen">drawerOpen</string>
+    <string name="drawerClose">drawerClose</string>
+    <string name="title">Navigationemail</string>
+    <string name="nav_header_title">nav_header_title</string>
+    <string name="nav_header_subtitle">nav_header_subtitle</string>
+    <string name="nav_header_desc">nav_header_desc</string>
+    <string name="menu_home">menu_home</string>
+    <string name="menu_gallery">menu_gallery</string>
+    <string name="menu_slideshow">menu_slideshow</string>
+    <string name="menu_tools">menu_tools</string>
+    <string name="menu_share">menu_share</string>
+    <string name="menu_send">menu_send</string>
+    <string name="logout">logout</string>
+    <string name="title_activity_navigation">Navigation</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
     <!--end Awatef-->
     <!--Zeyad-->
     <string name="facebook_app_id">191385532126234</string>
@@ -29,5 +60,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="save">Save</string>
     <string name="add_notes">Add Notes</string>
+    <string name="title_activity_history_map">Map</string>
     <!--end Zeyad-->
 </resources>
