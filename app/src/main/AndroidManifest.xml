@@ -75,7 +75,8 @@
         <activity android:name=".home.HomeActivity" />
         <activity android:name=".signup.SignUp" />
         <activity android:name=".login.LoginActivity" />
-        <activity android:name=".Splash">
+        <activity android:name=".Splash"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

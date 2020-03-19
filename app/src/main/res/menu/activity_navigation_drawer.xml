@@ -16,11 +16,11 @@
 
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/other">
         <menu>
             <item
                 android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_logout"
                 android:title="@string/logout" />
 
         </menu>

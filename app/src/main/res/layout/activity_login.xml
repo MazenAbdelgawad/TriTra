@@ -7,15 +7,13 @@
     tools:context=".login.LoginActivity">
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/img"
-        android:layout_width="189dp"
-        android:layout_height="133dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_marginTop="36dp"
-        android:src="@drawable/tritra"
+        android:src="@mipmap/ic_launcher_foreground"
         android:visibility="visible"
-        app:civ_border_color="#FF3C628A"
-        app:civ_border_width="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.554"
         app:layout_constraintStart_toStartOf="parent"

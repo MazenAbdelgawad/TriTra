@@ -4,18 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/browser_actions_title_color"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/img"
-        android:layout_width="236dp"
-        android:layout_height="203dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="85dp"
+        android:layout_marginLeft="85dp"
+        android:layout_marginEnd="85dp"
+        android:layout_marginRight="85dp"
         android:foregroundGravity="center"
-        android:src="@drawable/tritra"
+        android:src="@mipmap/ic_launcher_foreground"
         android:visibility="visible"
-        app:civ_border_color="#FF3C628A"
-        app:civ_border_width="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

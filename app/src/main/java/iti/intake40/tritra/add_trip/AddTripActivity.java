@@ -59,11 +59,11 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
     MaterialTextView txtTime;
     Calendar calendar;
     AlarmManager alarmManager;
-    int tripYear;
-    int tripMonth;
-    int tripDay;
-    int tripHour;
-    int tripMinute;
+    int tripYear=-1;
+    int tripMonth=-1;
+    int tripDay=-1;
+    int tripHour=-1;
+    int tripMinute=-1;
     ToggleButton tglBtnTripType;
     Place startPoint;
     Place endPoint;
@@ -167,9 +167,9 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
                     Snackbar.make(spinerContainerLayout, R.string.start_ponit_empty, Snackbar.LENGTH_SHORT).show();
                 }else if(endPoint == null && getIntent().getStringExtra(TRIP_ID) == null){
                     Snackbar.make(spinerContainerLayout, R.string.end_ponit_empty, Snackbar.LENGTH_SHORT).show();
-                }else if(tripYear==0 || tripMonth==0 || tripDay==0){
+                }else if(tripYear==-1 || tripMonth==-1 || tripDay==-1){
                     Snackbar.make(spinerContainerLayout, R.string.date_empty, Snackbar.LENGTH_SHORT).show();
-                }else if(tripHour==0 || tripMinute<0) {
+                }else if(tripHour==-1 || tripMinute==-1) {
                     Snackbar.make(spinerContainerLayout, R.string.time_empty, Snackbar.LENGTH_SHORT).show();
                 }else{
                     trip.setName(txtTripName.getText().toString());
