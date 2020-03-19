@@ -12,6 +12,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import iti.intake40.tritra.R;
+
 
 public class LoginPresenter implements LoginContract.PresenterInterface {
 LoginContract.ViewInterface viewInterface;
@@ -34,14 +36,14 @@ LoginContract.ViewInterface viewInterface;
                     String id = mAuth.getCurrentUser().getUid();
                     String email = mAuth.getCurrentUser().getEmail();
                     System.out.println(email);
-                    viewInterface.displayMessage("user logined successfully");
+                    viewInterface.displayMessage(viewInterface.getMyConttext().getResources().getString(R.string.user_logined_successfully));
                     viewInterface.writeShredPreference(id,email);
                     viewInterface.showProgress();
                     viewInterface.redirectId(email,id);
                 }
                 else{
                     viewInterface.showProgress();
-                    viewInterface.displayMessage("username and password doesn't matches");
+                    viewInterface.displayMessage(viewInterface.getMyConttext().getResources().getString(R.string.username_and_password_doesnot_matches));
 
                 }
 
@@ -49,7 +51,7 @@ LoginContract.ViewInterface viewInterface;
         });
     }
     else{
-        viewInterface.displayMessage("check network connection");
+        viewInterface.displayMessage(viewInterface.getMyConttext().getResources().getString(R.string.check_network_connection));
     }
     }
 

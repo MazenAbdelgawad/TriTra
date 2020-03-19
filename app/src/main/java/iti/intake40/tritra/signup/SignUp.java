@@ -87,27 +87,27 @@ public class SignUp extends AppCompatActivity implements SignupContract.ViewInte
         }
 
         if (TextUtils.isEmpty(email_str)) {
-            email.setError("email is required");
+            email.setError(getResources().getString(R.string.email_is_required));
             return;
         }
         if (TextUtils.isEmpty(password_str)) {
-            password.setError("password is required");
+            password.setError(getResources().getString(R.string.password_is_required));
             return;
         }
         if (password_str.length() < 6) {
-            password.setError("password must be >= 6 characters");
+            password.setError(getResources().getString(R.string.password_character));
             password.setText("");
             return;
         }
         if (!password_str.equals(confirm_password_str)) {
-            confirm_password.setError("password doesn't match");
+            confirm_password.setError(getResources().getString(R.string.password_doesnot_match));
             password.setText("");
             confirm_password.setText("");
             return;
 
         }
         if (TextUtils.isEmpty(name_str)) {
-            name.setError("name is required");
+            name.setError(getResources().getString(R.string.name_is_required));
             return;
         }
         UserModle userModle = new UserModle("id",name_str,email_str);
@@ -141,6 +141,11 @@ public class SignUp extends AppCompatActivity implements SignupContract.ViewInte
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    @Override
+    public Context getMyConttext() {
+        return getApplicationContext();
     }
 
 }

@@ -1,5 +1,7 @@
 package iti.intake40.tritra.signup;
 
+import android.content.Context;
+
 import iti.intake40.tritra.model.UserModle;
 
 public interface SignupContract {
@@ -15,5 +17,6 @@ public interface SignupContract {
         void redirectId(String s);
          void showProgress();
         boolean isNetworkAvailable();
+        Context getMyConttext();
     }
 }

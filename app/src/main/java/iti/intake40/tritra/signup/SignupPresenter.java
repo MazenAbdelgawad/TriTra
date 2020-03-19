@@ -5,6 +5,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+import iti.intake40.tritra.R;
 import iti.intake40.tritra.model.Database;
 import iti.intake40.tritra.model.UserModle;
 
@@ -26,7 +28,7 @@ SignupContract.ViewInterface viewInterface;
            @Override
            public void onComplete(@NonNull Task<AuthResult> task) {
                if(task.isSuccessful()){
-                   viewInterface.displayMessage("user created successfully");
+                   viewInterface.displayMessage(viewInterface.getMyConttext().getResources().getString(R.string.user_created_successfully));
                   // startActivity(new Intent(getApplicationContext(), MainActivity.class));
                    user.setId(mAuth.getCurrentUser().getUid());
                    Database.getInstance().addUser(user);
@@ -34,14 +36,14 @@ SignupContract.ViewInterface viewInterface;
 
                }
                else{
-                   viewInterface.displayMessage("user already exist");
+                   viewInterface.displayMessage(viewInterface.getMyConttext().getResources().getString(R.string.user_already_exist));
                    viewInterface.showProgress();
                }
 
            }
        });
     }else{
-           viewInterface.displayMessage("check network connection");
+           viewInterface.getMyConttext().getResources().getString(R.string.check_network_connection);
        }
     }
 
