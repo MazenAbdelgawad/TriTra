@@ -189,7 +189,7 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
                         cancelAlarm();
                     }
                     createAlarm();
-                    Toast.makeText(AddTripActivity.this,"Alarm set on" + tripHour + tripMinute,Toast.LENGTH_LONG).show();
+                    //Toast.makeText(AddTripActivity.this,"Alarm set on" + tripHour + tripMinute,Toast.LENGTH_LONG).show();
                     finish();
                 }
             }
@@ -254,7 +254,7 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
     }
 
     private void cancelAlarm(){
-        Toast.makeText(AddTripActivity.this,"cancel alarm"+oldAlarmRequestId,Toast.LENGTH_LONG).show();
+        //Toast.makeText(AddTripActivity.this,"cancel alarm"+oldAlarmRequestId,Toast.LENGTH_LONG).show();
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent cancelAlarmIntent = new Intent(AddTripActivity.this, AlarmReceiver.class);
         PendingIntent cancelAlarmPendingIntent = PendingIntent.getBroadcast(AddTripActivity.this,

@@ -58,7 +58,7 @@ public class HistoryFragment extends Fragment implements HistoryContract.ViewInt
         btnmap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "MapClick", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "MapClick", Toast.LENGTH_SHORT).show();
                 openGoogleMap();
             }
         });

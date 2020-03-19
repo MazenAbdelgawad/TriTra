@@ -63,7 +63,7 @@ public class NavigationDraw extends AppCompatActivity  {
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         TextView navUsername = headerView.findViewById(R.id.title);
-        navUsername.setText("TriTra");
+        navUsername.setText(R.string.app_name);
         View sub_title = navigationView.getHeaderView(0);
         TextView nav_email = sub_title.findViewById(R.id.sub_title);
         nav_email.setText(email);

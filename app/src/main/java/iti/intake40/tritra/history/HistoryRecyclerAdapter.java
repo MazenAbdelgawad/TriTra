@@ -55,7 +55,7 @@ public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecycler
         holder.btnNotes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(holder.layout.getContext(), "btnNotesHIS", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(holder.layout.getContext(), "btnNotesHIS", Toast.LENGTH_SHORT).show();
                 noteInterface.openNote(tripsList.get(position).getId());
 
             }
@@ -64,7 +64,7 @@ public class HistoryRecyclerAdapter extends RecyclerView.Adapter<HistoryRecycler
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(holder.layout.getContext(), "btnDelete", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(holder.layout.getContext(), "btnDelete", Toast.LENGTH_SHORT).show();
                 noteInterface.deleteTrip(tripsList.get(position).getId());
             }
         });

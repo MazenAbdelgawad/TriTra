@@ -69,7 +69,7 @@ public class AlarmActivity extends Activity implements TripInterface {
         AlertDialog tripAlertDialog = alertDialogBuilder.create();
         tripAlertDialog.setCanceledOnTouchOutside(false);
         //tripAlertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-        tripAlertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
+        //tripAlertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
         tripAlertDialog.show();
     }
 

@@ -36,17 +36,18 @@
 
         <activity
             android:name=".HistoryMap"
-            android:label="@string/title_activity_history_map"></activity>
+            android:label="@string/title_activity_history_map"/>
 
         <activity
             android:name=".history_note_dialog.NoteDialogActivity"
-            android:theme="@style/NoActionBarForDialog"></activity>
-        <activity android:name=".add_trip.AddTripActivity" />
+            android:theme="@style/NoActionBarForDialog"/>
+        <activity android:name=".add_trip.AddTripActivity"
+            android:configChanges="orientation|screenSize|screenLayout"/>
 
         <service
             android:name=".floating_head.HeadService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true"/>
 
         <activity
             android:name=".alarm.AlarmActivity"
@@ -67,7 +68,8 @@
         <activity
             android:name=".navigation.NavigationDraw"
             android:label="@string/upcoming"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize|screenLayout"/>
         <activity
             android:name=".notes.NoteActivity"
             android:parentActivityName=".home.HomeActivity"
