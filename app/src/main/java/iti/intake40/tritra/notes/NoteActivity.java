@@ -86,7 +86,7 @@ public class NoteActivity extends AppCompatActivity implements NotesContract.Vie
             public void onClick(View view) {
                 String note=addnotetxt.getText().toString().trim();
                 if(TextUtils.isEmpty(note)){
-                    addnotetxt.setError("fill empty field");
+                    addnotetxt.setError(getResources().getString(R.string.fill_empty_field));
                 }else{
                     NoteModel noteModel=new NoteModel("id",note,"TODO");
                     Database.getInstance().addNote(noteModel,tripid);

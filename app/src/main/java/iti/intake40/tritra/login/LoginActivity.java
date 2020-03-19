@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         super.onStart();
         presenterInterface=new LoginPresenter(this);
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        //updateUI(currentUser);
     }
 
     @Override
@@ -106,15 +106,15 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         String password_str = password.getText().toString().trim();
 
         if (TextUtils.isEmpty(email_str)) {
-            email.setError("email is required");
+            email.setError(getResources().getString(R.string.email_is_required));
             return;
         }
         if (TextUtils.isEmpty(password_str)) {
-            password.setError("password is required");
+            password.setError(getResources().getString(R.string.password_is_required));
             return;
         }
         if (password_str.length() < 6) {
-            password.setError("password must be >= 6 characters");
+            password.setError(getResources().getString(R.string.password_character));
             password.setText("");
             return;
         }
@@ -168,16 +168,16 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void updateUI(FirebaseUser user){
+   /* private void updateUI(FirebaseUser user){
         if(user != null){
             Toast.makeText(LoginActivity.this,"Logged_in id =" + user.getUid(),Toast.LENGTH_LONG).show();
         }else{
             Toast.makeText(LoginActivity.this,"Fail to login",Toast.LENGTH_LONG).show();
         }
-    }
+    }*/
 
     private void handleFacebookAccessToken(AccessToken token) {
-        Log.d("Face", "handleFacebookAccessToken:" + token);
+
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
@@ -185,9 +185,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            displayMessage("LOGGED IN ZEEEYAD");
+
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d("Face", "signInWithCredential:success");
+
                             FirebaseUser user = mAuth.getCurrentUser();
                             ////
                             UserModle userModle = new UserModle(user.getUid(),user.getDisplayName(),user.getEmail());
@@ -196,7 +196,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                             String id = mAuth.getCurrentUser().getUid();
                             String email = mAuth.getCurrentUser().getEmail();
                             System.out.println(email);
-                            displayMessage("user logined successfully");
+
                             writeShredPreference(id,email);
                             showProgress();
                             redirectId(email,id);
@@ -204,9 +204,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("Face", "signInWithCredential:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
+
+                            //updateUI(null);
                         }
 
                         // ...
@@ -252,6 +251,11 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    @Override
+    public Context getMyConttext() {
+        return getApplicationContext();
     }
 
 }
