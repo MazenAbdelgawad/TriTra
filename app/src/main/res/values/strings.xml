@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TriTra</string>
+    <string name="app_name">Trip Track</string>
     <!--Mazen-->
     <string name="trip_name_test">My Alex Trip</string>
     <string name="start_point_test">Ismailia ITI</string>
