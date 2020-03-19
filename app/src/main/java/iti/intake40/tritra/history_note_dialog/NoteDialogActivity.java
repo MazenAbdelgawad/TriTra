@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import iti.intake40.tritra.R;
+import iti.intake40.tritra.floating_head.HeadService;
 import iti.intake40.tritra.history.HistoryContract;
 import iti.intake40.tritra.model.Database;
 import iti.intake40.tritra.model.NoteModel;
@@ -59,6 +60,11 @@ public class NoteDialogActivity extends AppCompatActivity implements HistoryNote
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(getIntent().getStringExtra(CLICKABLE) != null){
+                    Intent serviceIntent = new Intent(NoteDialogActivity.this, HeadService.class);
+                    serviceIntent.putExtra(NoteActivity.TRIP_ID_KEY,tripid);
+                    startService(serviceIntent);
+                }
                 NoteDialogActivity.this.finish();
             }
         });

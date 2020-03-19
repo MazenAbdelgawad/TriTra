@@ -31,49 +31,9 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginLeft="50dp"
-                android:src="@mipmap/ic_launcher_round" />
+                android:src="@drawable/ic_close" />
         </RelativeLayout>
 
         <!-- this is the expanded layout -->
-        <LinearLayout
-            android:id="@+id/layoutExpanded"
-            android:layout_width="match_parent"
-            android:layout_height="195dp"
-            android:background="@color/quantum_white_100"
-            android:orientation="vertical"
-            android:padding="8dp"
-            android:visibility="gone"
-            android:weightSum="5">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:weightSum="5">
-
-                <Button
-                    android:id="@+id/exp_close_button"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:foreground="@drawable/com_facebook_close"
-                    android:text="Button" />
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:text="TextView" />
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/headRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="4" />
-
-        </LinearLayout>
     </RelativeLayout>
 </FrameLayout>

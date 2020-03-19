@@ -28,6 +28,7 @@ import iti.intake40.tritra.MainActivity;
 import iti.intake40.tritra.R;
 import iti.intake40.tritra.add_trip.AddTripActivity;
 import iti.intake40.tritra.alarm.AlarmActivity;
+import iti.intake40.tritra.floating_head.HeadService;
 import iti.intake40.tritra.model.Database;
 import iti.intake40.tritra.model.TripModel;
 import iti.intake40.tritra.notes.NoteActivity;
@@ -153,8 +154,10 @@ public class HomeFragment extends Fragment implements HomeContract.ViewInterface
             trip.setStatus(TripModel.STATUS.DONE);
             presenter.moveTripToHistory(trip,userId);
         }
-
-        //add Floatin ICON
+        //Cancel Alarm
+        Intent serviceIntent = new Intent(getContext(), HeadService.class);
+        serviceIntent.putExtra(NoteActivity.TRIP_ID_KEY,trip.getId());
+        getActivity().startService(serviceIntent);
     }
 
     @Override

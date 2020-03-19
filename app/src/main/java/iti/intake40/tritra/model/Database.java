@@ -97,7 +97,7 @@ public class Database {
         //homePresnter.setTrips(new ArrayList<TripModel>());
     }
 
-    public void getTripForEdit(String userId, String tripId ,final AddTripContract.PresenterInterface Presnter){
+    public void getTripForEdit(String userId, String tripId ,final TripInterface Presnter){
 
         dbReference.getReference("trip").child(userId).child(tripId).addValueEventListener(new ValueEventListener() {
             @Override
