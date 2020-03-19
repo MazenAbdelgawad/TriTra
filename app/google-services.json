@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "128754480899-6o9iuhi59hagm3r91l6ec0csfbttq7ta.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "iti.intake40.tritra",
+            "certificate_hash": "116f60cc5ec105e70234d508f261733900e1240d"
+          }
+        },
+        {
+          "client_id": "128754480899-l8tn9mput2a1ji2v9npr2ajebclc1v3j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "iti.intake40.tritra",
+            "certificate_hash": "7a0fa0f76a5be4214997247a142e9d3867721bd5"
+          }
+        },
+        {
           "client_id": "128754480899-astiqsef2sboeb5cuj0uigq1dt4vfisn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

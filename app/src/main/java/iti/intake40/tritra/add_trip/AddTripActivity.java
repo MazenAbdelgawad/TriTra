@@ -261,7 +261,10 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
 
     private Intent configAlarmIntent(){
         Intent tripAlarmIntent = new Intent(AddTripActivity.this, AlarmReceiver.class);
-        tripAlarmIntent.putExtra(TRIP_NAME,txtTripName.getText().toString());
+
+        tripAlarmIntent.putExtra(HomeFragment.USERID,userId);
+        tripAlarmIntent.putExtra(TRIP_ID,trip.getId());
+        tripAlarmIntent.putExtra(TRIP_NAME,trip.getName());
         tripAlarmIntent.putExtra(TRIP_START_POINT,trip.getStartPoint());
         tripAlarmIntent.putExtra(TRIP_END_POINT,trip.getEndPoint());
         return  tripAlarmIntent;
