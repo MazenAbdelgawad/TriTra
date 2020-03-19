@@ -168,27 +168,34 @@ public class AlarmActivity extends Activity implements TripInterface {
     }
 
     private void showNotificationBelowOreo() {
-        int id = (int) System.currentTimeMillis();
-        int tripNotifacationID = id;
+        int notificationId = ((int) System.currentTimeMillis() * -1);
+        int actionButtonId = new Random().nextInt(1000);
 
         Intent startIntent = new Intent(AlarmActivity.this, AlarmReceiver.class);
-        startIntent.putExtra("NotificationId", tripNotifacationID);
+        startIntent.putExtra("NotificationId", notificationId);
         startIntent.putExtra("NotificationTag", 1);
         startIntent.putExtra("ActionButtonId", 1);
+        startIntent.putExtra(AddTripActivity.TRIP_ID,tripIntent.getStringExtra(AddTripActivity.TRIP_ID));
+        startIntent.putExtra(HomeFragment.USERID,tripIntent.getStringExtra(HomeFragment.USERID));
         startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent startPendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, 0, startIntent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent startPendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, actionButtonId, startIntent, PendingIntent.FLAG_ONE_SHOT);
 
         Intent endIntent = new Intent(AlarmActivity.this, AlarmReceiver.class);
-        startIntent.putExtra("NotificationId", tripNotifacationID);
-        startIntent.putExtra("NotificationTag", 1);
+        endIntent.putExtra("NotificationId", notificationId);
+        endIntent.putExtra("NotificationTag", 1);
         endIntent.putExtra("ActionButtonId", 2);
+        endIntent.putExtra(AddTripActivity.TRIP_ID,tripIntent.getStringExtra(AddTripActivity.TRIP_ID));
+        endIntent.putExtra(HomeFragment.USERID,tripIntent.getStringExtra(HomeFragment.USERID));
         endIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent endPendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, 1, endIntent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent endPendingIntent = PendingIntent.getBroadcast(AlarmActivity.this, actionButtonId+1, endIntent, PendingIntent.FLAG_ONE_SHOT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle("My notification")
-                .setContentText("Hello World!")
+                .setOngoing(true)
+                .setContentTitle(tripAlertTitle)
+                .setContentText(tripAlertInfo)
+                .setSmallIcon(R.drawable.tritra)
+                .setLargeIcon(BitmapFactory.decodeResource(AlarmActivity.this.getResources(),
+                        R.drawable.tritra))
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 // Set the intent that will fire when the user taps the notification
                // .setContentIntent(pendingIntent)
@@ -203,9 +210,7 @@ public class AlarmActivity extends Activity implements TripInterface {
 
         // NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(tripNotifacationID, builder.build());
-
-
+        notificationManager.notify(notificationId, builder.build());
     }
 
     private void getTrip(){
