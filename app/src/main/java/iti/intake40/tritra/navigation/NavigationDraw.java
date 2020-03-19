@@ -13,6 +13,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.ui.AppBarConfiguration;
 
+import com.facebook.login.LoginManager;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -100,13 +101,13 @@ public class NavigationDraw extends AppCompatActivity  {
                 }
                 drawer.closeDrawers();
                 return true;
-
             }
         });
     }
 
 
     public void logout(){
+        LoginManager.getInstance().logOut();
         FirebaseAuth.getInstance().signOut();
         SharedPreferences mPrefs = getSharedPreferences("myAppPrefs", Context.MODE_PRIVATE);
         mPrefs.edit().putBoolean("is_logged_before",false).commit();
@@ -114,6 +115,5 @@ public class NavigationDraw extends AppCompatActivity  {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
-
     }
 }

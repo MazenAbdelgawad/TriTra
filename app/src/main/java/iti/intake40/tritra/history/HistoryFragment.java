@@ -80,7 +80,7 @@ public class HistoryFragment extends Fragment implements HistoryContract.ViewInt
     @Override
     public void displayNoTrips() {
         //TODO: displayNoTrips
-        Toast.makeText(getContext(), "NO TRIP!!!!!!", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getContext(), "NO TRIP!!!!!!", Toast.LENGTH_SHORT).show();
         noTripsLayout.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.INVISIBLE);
     }

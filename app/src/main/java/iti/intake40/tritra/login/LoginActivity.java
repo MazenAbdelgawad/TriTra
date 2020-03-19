@@ -137,6 +137,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                displayMessage("AWATEF LOGGED");
                 Log.d("FACE", "facebook:onSuccess:" + loginResult);
 //                database = FirebaseDatabase.getInstance();
 //                myRef = database.getReference("users");
@@ -145,12 +146,14 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
             @Override
             public void onCancel() {
+                displayMessage("AWATEF CANCEL");
                 Log.d("FACE", "facebook:onCancel");
                 // ...
             }
 
             @Override
             public void onError(FacebookException error) {
+                displayMessage("AWATEF ERROR");
                 Log.d("FACE", "facebook:onError", error);
                 // ...
             }
@@ -182,6 +185,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            displayMessage("LOGGED IN ZEEEYAD");
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("Face", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
@@ -189,7 +193,14 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                             UserModle userModle = new UserModle(user.getUid(),user.getDisplayName(),user.getEmail());
                             Database.getInstance().addUser(userModle);
                             ////
-                            updateUI(user);
+                            String id = mAuth.getCurrentUser().getUid();
+                            String email = mAuth.getCurrentUser().getEmail();
+                            System.out.println(email);
+                            displayMessage("user logined successfully");
+                            writeShredPreference(id,email);
+                            showProgress();
+                            redirectId(email,id);
+                            ////updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("Face", "signInWithCredential:failure", task.getException());

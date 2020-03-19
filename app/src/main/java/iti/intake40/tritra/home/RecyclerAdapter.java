@@ -54,7 +54,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.btnNotes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(holder.layout.getContext(), "btnNotes", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(holder.layout.getContext(), "btnNotes", Toast.LENGTH_SHORT).show();
                 cardMenuInterface.openNotes(tripsList.get(position).getId());
             }
         });
@@ -62,7 +62,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(holder.layout.getContext(), "btnMenu", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(holder.layout.getContext(), "btnMenu", Toast.LENGTH_SHORT).show();
                 cardMenuInterface.onPopupMenuClick(v,position);
             }
         });
@@ -70,7 +70,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(holder.layout.getContext(), "btnStart", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(holder.layout.getContext(), "btnStart", Toast.LENGTH_SHORT).show();
                 cardMenuInterface.startTrip(tripsList.get(position));
             }
         });

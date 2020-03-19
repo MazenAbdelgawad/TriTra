@@ -46,6 +46,10 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
     private String apiKey="AIzaSyBCXNUjza_-JQWSpFhvMgzpXQqgifH9qak"; //Awatef
     public static final String TAG = "TAG_AUTOSEARCH";
     public static final String TRIP_ID="TRIP_ID";
+    public static final String TRIP_NAME = "TRIP_NAME";
+    public static final String TRIP_START_POINT = "TRIP_START_POINT";
+    public static final String TRIP_END_POINT = "TRIP_END_POINT";
+    public static final String ALARM_ID = "ALARM_ID";
     TextInputEditText txtTripName;
     Button btnSave;
     Button btnAddNoteCancel;
@@ -54,11 +58,12 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
     MaterialTextView txtDate;
     MaterialTextView txtTime;
     Calendar calendar;
-    int tripYear;
-    int tripMonth;
-    int tripDay;
-    int tripHour;
-    int tripMinute;
+    AlarmManager alarmManager;
+    int tripYear=-1;
+    int tripMonth=-1;
+    int tripDay=-1;
+    int tripHour=-1;
+    int tripMinute=-1;
     ToggleButton tglBtnTripType;
     Place startPoint;
     Place endPoint;
@@ -66,6 +71,9 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
 
     TripModel trip;
     String userId;
+
+    int counter = 0 ;
+
 
     AddTripContract.PresenterInterface presenterInterface;
 
@@ -159,9 +167,9 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
                     Snackbar.make(spinerContainerLayout, R.string.start_ponit_empty, Snackbar.LENGTH_SHORT).show();
                 }else if(endPoint == null && getIntent().getStringExtra(TRIP_ID) == null){
                     Snackbar.make(spinerContainerLayout, R.string.end_ponit_empty, Snackbar.LENGTH_SHORT).show();
-                }else if(tripYear==0 || tripMonth==0 || tripDay==0){
+                }else if(tripYear==-1 || tripMonth==-1 || tripDay==-1){
                     Snackbar.make(spinerContainerLayout, R.string.date_empty, Snackbar.LENGTH_SHORT).show();
-                }else if(tripHour==0 || tripMinute<0) {
+                }else if(tripHour==-1 || tripMinute==-1) {
                     Snackbar.make(spinerContainerLayout, R.string.time_empty, Snackbar.LENGTH_SHORT).show();
                 }else{
                     trip.setName(txtTripName.getText().toString());
@@ -227,18 +235,47 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
         });
     }
 
+
     private void createAlarm(){
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(tripYear,tripMonth,tripDay,tripHour,tripMinute,0);
-        Intent tripAlarmIntent = new Intent(AddTripActivity.this, AlarmReceiver.class);
-        PendingIntent tripAlarmPendingIntent = PendingIntent.getBroadcast(AddTripActivity.this,0,tripAlarmIntent,0);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        setCalender();
+        Intent tripAlarmIntent = configAlarmIntent();
+        int tripAlarmPendintgIntentRequestCode = generateId();
+        PendingIntent tripAlarmPendingIntent = PendingIntent.getBroadcast(AddTripActivity.this
+                ,tripAlarmPendintgIntentRequestCode,
+                tripAlarmIntent,
+                PendingIntent.FLAG_ONE_SHOT);
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //Android kitkat or above
             alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),tripAlarmPendingIntent);
         }else{
+            //Android below kitkat
             alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),tripAlarmPendingIntent);
         }
     }
+
+    private void setCalender(){
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(tripYear,tripMonth,tripDay,tripHour,tripMinute,0);
+    }
+
+    private Intent configAlarmIntent(){
+        Intent tripAlarmIntent = new Intent(AddTripActivity.this, AlarmReceiver.class);
+
+        tripAlarmIntent.putExtra(HomeFragment.USERID,userId);
+        tripAlarmIntent.putExtra(TRIP_ID,trip.getId());
+        tripAlarmIntent.putExtra(TRIP_NAME,trip.getName());
+        tripAlarmIntent.putExtra(TRIP_START_POINT,trip.getStartPoint());
+        tripAlarmIntent.putExtra(TRIP_END_POINT,trip.getEndPoint());
+        return  tripAlarmIntent;
+    }
+
+    private int generateId(){
+        int x =Integer.parseInt(tripMonth+""+tripDay+""+tripHour+""+tripMinute);
+        return x;
+    }
+
+
 
     @Override
     public void SetTripForEdit(TripModel tripModel) {

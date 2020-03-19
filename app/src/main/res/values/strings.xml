@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TriTra</string>
+    <string name="app_name">Trip Track</string>
     <!--Mazen-->
     <string name="trip_name_test">My Alex Trip</string>
     <string name="start_point_test">Ismailia ITI</string>
@@ -27,6 +27,7 @@
     <string name="yes">YES</string>
     <string name="delete_warning">Delete Warning..! </string>
     <string name="delete_question">Are you want to delete this trip ?</string>
+    <string name="other">Other</string>
     <!--end Mazen-->
     <!--Awatef-->
     <string name="login">login</string>
