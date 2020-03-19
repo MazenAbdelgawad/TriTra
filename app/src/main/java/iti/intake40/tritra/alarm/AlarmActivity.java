@@ -18,6 +18,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import java.util.Random;
 
@@ -46,6 +47,7 @@ public class AlarmActivity extends Activity implements TripInterface {
     Intent tripIntent;
     String tripAlertTitle;
     String tripAlertInfo;
+    int notificationId;
 
 
     @Override
@@ -66,7 +68,8 @@ public class AlarmActivity extends Activity implements TripInterface {
         configAlertBuilder(alertDialogBuilder);
         AlertDialog tripAlertDialog = alertDialogBuilder.create();
         tripAlertDialog.setCanceledOnTouchOutside(false);
-       // tripAlertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        //tripAlertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        tripAlertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
         tripAlertDialog.show();
     }
 
@@ -127,9 +130,8 @@ public class AlarmActivity extends Activity implements TripInterface {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void showNotificationOreoAndAbove() {
-        //int id = ((int) System.currentTimeMillis() * -1);
-        int notificationId = ((int) System.currentTimeMillis() * -1);
-        int actionButtonId = new Random().nextInt(1000);
+        notificationId = tripIntent.getIntExtra(AddTripActivity.ALARM_ID,0);
+        int actionButtonId = genetrateCode();
 
         Intent startIntent = new Intent(AlarmActivity.this, AlarmReceiver.class);
         startIntent.putExtra(NOTIFICATION_ID,notificationId);
@@ -246,5 +248,10 @@ public class AlarmActivity extends Activity implements TripInterface {
         if(trip != null){
             this.trip = trip;
         }
+    }
+
+    private int genetrateCode(){
+        int generatedCode = new Random().nextInt(1000);
+        return generatedCode;
     }
 }

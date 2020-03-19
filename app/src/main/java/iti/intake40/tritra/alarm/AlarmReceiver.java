@@ -13,6 +13,9 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
+import java.security.acl.LastOwnerException;
+import java.sql.SQLOutput;
+
 import iti.intake40.tritra.add_trip.AddTripActivity;
 import iti.intake40.tritra.floating_head.HeadService;
 import iti.intake40.tritra.home.HomeFragment;
@@ -37,6 +40,7 @@ public class AlarmReceiver extends BroadcastReceiver implements TripInterface {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Toast.makeText(context,"Reached", Toast.LENGTH_LONG).show();
         this.context = context;
         this.intent = intent;
         String action = intent.getAction();
@@ -81,11 +85,13 @@ public class AlarmReceiver extends BroadcastReceiver implements TripInterface {
         String tripTitle = inIntent.getStringExtra(AddTripActivity.TRIP_NAME);
         String tripStartPoint = inIntent.getStringExtra(AddTripActivity.TRIP_START_POINT);
         String tripEndPoint = inIntent.getStringExtra(AddTripActivity.TRIP_END_POINT);
+        Integer alarmId = inIntent.getIntExtra(AddTripActivity.ALARM_ID,0);
         tripAlarmIntent.putExtra(HomeFragment.USERID, userId);
         tripAlarmIntent.putExtra(AddTripActivity.TRIP_ID, tripId);
         tripAlarmIntent.putExtra(AddTripActivity.TRIP_NAME, tripTitle);
         tripAlarmIntent.putExtra(AddTripActivity.TRIP_START_POINT, tripStartPoint);
         tripAlarmIntent.putExtra(AddTripActivity.TRIP_END_POINT, tripEndPoint);
+        tripAlarmIntent.putExtra(AddTripActivity.ALARM_ID,alarmId);
         tripAlarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         return tripAlarmIntent;
     }
@@ -127,6 +133,7 @@ public class AlarmReceiver extends BroadcastReceiver implements TripInterface {
     @Override
     public void SetTripForEdit(TripModel trip) {
         if (trip != null) {
+            System.out.println("ROUNDTRIIIP"+trip.getStatus());
             this.trip = trip;
             cancelNotification(notificationId, context);
             int actionButtonId = intent.getIntExtra("ActionButtonId", 0);

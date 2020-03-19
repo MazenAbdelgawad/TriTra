@@ -1,7 +1,10 @@
 package iti.intake40.tritra.home;
 
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -22,12 +25,15 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import iti.intake40.tritra.MainActivity;
 import iti.intake40.tritra.R;
 import iti.intake40.tritra.add_trip.AddTripActivity;
 import iti.intake40.tritra.alarm.AlarmActivity;
+import iti.intake40.tritra.alarm.AlarmReceiver;
 import iti.intake40.tritra.floating_head.HeadService;
 import iti.intake40.tritra.model.Database;
 import iti.intake40.tritra.model.TripModel;
@@ -154,7 +160,7 @@ public class HomeFragment extends Fragment implements HomeContract.ViewInterface
             trip.setStatus(TripModel.STATUS.DONE);
             presenter.moveTripToHistory(trip,userId);
         }
-        //Cancel Alarm
+        cancelTripAlarm(trip);
         Intent serviceIntent = new Intent(getContext(), HeadService.class);
         serviceIntent.putExtra(NoteActivity.TRIP_ID_KEY,trip.getId());
         getActivity().startService(serviceIntent);
@@ -168,6 +174,7 @@ public class HomeFragment extends Fragment implements HomeContract.ViewInterface
         startActivity(intent);
     }
 
+
     public void deleteTrip(final int pos) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
         alertDialogBuilder.setTitle(R.string.delete_warning);
@@ -178,6 +185,7 @@ public class HomeFragment extends Fragment implements HomeContract.ViewInterface
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         presenter.deleteTrip(pos, userId);
+
                     }
                 })
                 .setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
@@ -187,6 +195,22 @@ public class HomeFragment extends Fragment implements HomeContract.ViewInterface
                 });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    @Override
+    public void cancelTripAlarm(TripModel trip){
+        String[] dateParams = trip.getDate().split("-");
+        String[]timeParams = trip.getTime().split(":");
+        int alarmPendingIntentRequestCode = Integer.parseInt(dateParams[1]+dateParams[2]+timeParams[0]+timeParams[1]);
+        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(getContext().ALARM_SERVICE);
+        Intent cancelAlarmIntent = new Intent(getContext(), AlarmReceiver.class);
+        PendingIntent cancelAlarmPendingIntent = PendingIntent.getBroadcast(getContext(),
+                                                    alarmPendingIntentRequestCode,
+                                                        cancelAlarmIntent,
+                                                        PendingIntent.FLAG_ONE_SHOT);
+        alarmManager.cancel(cancelAlarmPendingIntent);
+        NotificationManager manager = (NotificationManager) getContext().getSystemService(getContext().NOTIFICATION_SERVICE);
+        manager.cancel(alarmPendingIntentRequestCode);
     }
 
 }

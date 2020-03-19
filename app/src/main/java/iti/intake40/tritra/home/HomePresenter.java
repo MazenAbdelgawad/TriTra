@@ -49,6 +49,7 @@ public class HomePresenter implements HomeContract.PresenterInterface {
     public void deleteTrip(int pos,String userId) {
         //ToDO: Delete Trip
         System.out.println("NOTE pos= " +  pos);
+        viewInterface.cancelTripAlarm(tripsList.get(pos));
         Database.getInstance().deleteTrip(tripsList.get(pos).getId(),userId);
         //tripsList.remove(tripsList.get(pos));
         //getTrips(userId);

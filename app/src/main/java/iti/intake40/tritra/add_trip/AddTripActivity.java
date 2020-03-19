@@ -29,8 +29,6 @@ import com.google.android.libraries.places.api.Places;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -45,7 +43,7 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
     //private String apiKey="AIzaSyBHn174_ktTUup-lFD_cO07b2cyx1_zmXE"; //zezo
     private String apiKey="AIzaSyBCXNUjza_-JQWSpFhvMgzpXQqgifH9qak"; //Awatef
     public static final String TAG = "TAG_AUTOSEARCH";
-    public static final String TRIP_ID="TRIP_ID";
+    public static final String TRIP_ID ="TRIP_ID";
     public static final String TRIP_NAME = "TRIP_NAME";
     public static final String TRIP_START_POINT = "TRIP_START_POINT";
     public static final String TRIP_END_POINT = "TRIP_END_POINT";
@@ -72,7 +70,7 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
     TripModel trip;
     String userId;
 
-    int counter = 0 ;
+    int oldAlarmRequestId;
 
 
     AddTripContract.PresenterInterface presenterInterface;
@@ -188,6 +186,7 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
                             trip.setEndPoint(endPoint.getName());
                         presenterInterface.updateTrip(trip,userId);
                         //Todo: ZEYAD Clear Last Alarm !!
+                        cancelAlarm();
                     }
                     createAlarm();
                     Toast.makeText(AddTripActivity.this,"Alarm set on" + tripHour + tripMinute,Toast.LENGTH_LONG).show();
@@ -239,7 +238,7 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
     private void createAlarm(){
         setCalender();
         Intent tripAlarmIntent = configAlarmIntent();
-        int tripAlarmPendintgIntentRequestCode = generateId();
+        int tripAlarmPendintgIntentRequestCode = generateCode();
         PendingIntent tripAlarmPendingIntent = PendingIntent.getBroadcast(AddTripActivity.this
                 ,tripAlarmPendintgIntentRequestCode,
                 tripAlarmIntent,
@@ -252,6 +251,17 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
             //Android below kitkat
             alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),tripAlarmPendingIntent);
         }
+    }
+
+    private void cancelAlarm(){
+        Toast.makeText(AddTripActivity.this,"cancel alarm"+oldAlarmRequestId,Toast.LENGTH_LONG).show();
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent cancelAlarmIntent = new Intent(AddTripActivity.this, AlarmReceiver.class);
+        PendingIntent cancelAlarmPendingIntent = PendingIntent.getBroadcast(AddTripActivity.this,
+                oldAlarmRequestId,
+                cancelAlarmIntent,
+                PendingIntent.FLAG_ONE_SHOT);
+        alarmManager.cancel(cancelAlarmPendingIntent);
     }
 
     private void setCalender(){
@@ -267,12 +277,13 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
         tripAlarmIntent.putExtra(TRIP_NAME,trip.getName());
         tripAlarmIntent.putExtra(TRIP_START_POINT,trip.getStartPoint());
         tripAlarmIntent.putExtra(TRIP_END_POINT,trip.getEndPoint());
+        tripAlarmIntent.putExtra(ALARM_ID,generateCode());
         return  tripAlarmIntent;
     }
 
-    private int generateId(){
-        int x =Integer.parseInt(tripMonth+""+tripDay+""+tripHour+""+tripMinute);
-        return x;
+    private int generateCode(){
+        int generatedCode =Integer.parseInt(tripMonth+""+tripDay+""+tripHour+""+tripMinute);
+        return generatedCode;
     }
 
 
@@ -302,6 +313,7 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
                 tglBtnTripType.setChecked(false);
             if(trip.getStatus().equals(TripModel.STATUS.GO))
                 tglBtnTripType.setClickable(false);
+            oldAlarmRequestId = generateCode();
         }
     }
 

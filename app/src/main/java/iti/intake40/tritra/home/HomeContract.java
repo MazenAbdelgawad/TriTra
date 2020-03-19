@@ -20,5 +20,6 @@ public interface HomeContract {
         void displayNoTrips();
         void displayMessage(String msg);
         void openTripActivityForEdit(String tripId);
+        void cancelTripAlarm(TripModel trip);
     }
 }
