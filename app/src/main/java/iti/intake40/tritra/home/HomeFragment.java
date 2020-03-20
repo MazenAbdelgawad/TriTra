@@ -153,6 +153,7 @@ public class HomeFragment extends Fragment implements HomeContract.ViewInterface
         Intent mapsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr=" + trip.getEndPoint()));
         mapsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(mapsIntent);
+        cancelTripAlarm(trip);
         if(trip.getType().equals(TripModel.TYPE.ROUND_TRIP) && trip.getStatus().equals(TripModel.STATUS.UPCOMING )){
             trip.setStatus(TripModel.STATUS.GO);
             presenter.createRuturnTrip(trip,userId);
@@ -160,7 +161,6 @@ public class HomeFragment extends Fragment implements HomeContract.ViewInterface
             trip.setStatus(TripModel.STATUS.DONE);
             presenter.moveTripToHistory(trip,userId);
         }
-        cancelTripAlarm(trip);
         Intent serviceIntent = new Intent(getContext(), HeadService.class);
         serviceIntent.putExtra(NoteActivity.TRIP_ID_KEY,trip.getId());
         getActivity().startService(serviceIntent);

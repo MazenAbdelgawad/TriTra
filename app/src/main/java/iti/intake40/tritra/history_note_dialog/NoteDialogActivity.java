@@ -93,4 +93,13 @@ public class NoteDialogActivity extends AppCompatActivity implements HistoryNote
         presenterInterface.updateNoteStaus(noteModel, tripid);
     }
 
+
+    public void onBackPressed() {
+        if(getIntent().getStringExtra(CLICKABLE) != null){
+            Intent serviceIntent = new Intent(NoteDialogActivity.this, HeadService.class);
+            serviceIntent.putExtra(NoteActivity.TRIP_ID_KEY,tripid);
+            startService(serviceIntent);
+        }
+        NoteDialogActivity.this.finish();
+    }
 }
