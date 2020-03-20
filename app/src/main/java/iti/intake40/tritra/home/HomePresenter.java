@@ -42,7 +42,7 @@ public class HomePresenter implements HomeContract.PresenterInterface {
     @Override
     public void editTrip(int pos) {
         viewInterface.openTripActivityForEdit(tripsList.get(pos).getId());
-        viewInterface.displayMessage("Done Edit"+tripsList.get(pos).getName());
+        //viewInterface.displayMessage("Done Edit"+tripsList.get(pos).getName());
     }
 
     @Override

@@ -22,11 +22,11 @@
     <string name="one_direction">اتجاه واحد</string>
     <string name="round_trip">رحله ذهاب وعوده</string>
     <string name="type_of_trip">نوع الرحله</string>
-    <string name="history">التاريخ</string>
-    <string name="upcoming">القادم</string>
+    <string name="history">سجل الرحلات</string>
+    <string name="upcoming">الرحلات القادمة</string>
     <string name="cancel">الغاء</string>
     <string name="yes">نعم</string>
-    <string name="delete_warning">تحذيز بالحذف..! </string>
+    <string name="delete_warning">تحذير بالحذف..! </string>
     <string name="delete_question">هل ترغب في حذف الرحله..؟</string>
     <string name="other">الاخري</string>
     <!--end Mazen-->

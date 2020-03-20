@@ -57,6 +57,8 @@ public class HomeFragment extends Fragment implements HomeContract.ViewInterface
     String userId;
     public static final String USERID = "USERID";
 
+
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -80,7 +82,7 @@ public class HomeFragment extends Fragment implements HomeContract.ViewInterface
         fabAddTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "ADD TRIP UID=" + userId, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "ADD TRIP UID=" + userId, Toast.LENGTH_SHORT).show();
                 //TripModel trip = new TripModel();
                 //Database.getInstance().addTrip(trip, userId);
                 Intent intent = new Intent(getContext(), AddTripActivity.class);
