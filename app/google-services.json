@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "128754480899-sj0c37c18nl70tutgtku6bo5ju2jodh0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "iti.intake40.tritra",
+            "certificate_hash": "5e13eeab488ddb3b70fb5246f64c008df84bf10f"
+          }
+        },
+        {
           "client_id": "128754480899-6o9iuhi59hagm3r91l6ec0csfbttq7ta.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

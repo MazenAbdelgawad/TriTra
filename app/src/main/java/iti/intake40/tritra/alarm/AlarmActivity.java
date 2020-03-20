@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -170,8 +171,8 @@ public class AlarmActivity extends Activity implements TripInterface {
     }
 
     private void showNotificationBelowOreo() {
-        int notificationId = ((int) System.currentTimeMillis() * -1);
-        int actionButtonId = new Random().nextInt(1000);
+        notificationId = tripIntent.getIntExtra(AddTripActivity.ALARM_ID,0);
+        int actionButtonId = genetrateCode();
 
         Intent startIntent = new Intent(AlarmActivity.this, AlarmReceiver.class);
         startIntent.putExtra("NotificationId", notificationId);
@@ -230,7 +231,10 @@ public class AlarmActivity extends Activity implements TripInterface {
             trip.setStatus(TripModel.STATUS.DONE);
             Database.getInstance().addTripHistory(trip,tripIntent.getStringExtra(HomeFragment.USERID));
         }
-        //Cancel Alarm
+        if(isFloatingServiceRunning(HeadService.class)){
+            Intent closeServiceIntent = new Intent(AlarmActivity.this, HeadService.class);
+            stopService(closeServiceIntent);
+        }
         Intent serviceIntent = new Intent(AlarmActivity.this, HeadService.class);
         serviceIntent.putExtra(NoteActivity.TRIP_ID_KEY,tripIntent.getStringExtra(AddTripActivity.TRIP_ID));
         startService(serviceIntent);
@@ -253,5 +257,15 @@ public class AlarmActivity extends Activity implements TripInterface {
     private int genetrateCode(){
         int generatedCode = new Random().nextInt(1000);
         return generatedCode;
+    }
+
+    private boolean isFloatingServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

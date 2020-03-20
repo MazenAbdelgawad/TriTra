@@ -173,7 +173,8 @@ public class AddTripActivity extends AppCompatActivity implements AddTripContrac
                     trip.setName(txtTripName.getText().toString());
                     trip.setDate(tripYear+"-"+tripMonth+"-"+tripDay);
                     trip.setTime(tripHour+":"+tripMinute);
-                    trip.setStatus(TripModel.STATUS.UPCOMING);
+                    if(trip.getStatus() == null)
+                        trip.setStatus(TripModel.STATUS.UPCOMING);
                     if(getIntent().getStringExtra(TRIP_ID) == null){
                         trip.setStartPoint(startPoint.getName());
                         trip.setEndPoint(endPoint.getName());

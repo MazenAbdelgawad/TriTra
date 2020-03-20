@@ -34,6 +34,7 @@ public class NoteDialogActivity extends AppCompatActivity implements HistoryNote
     RecyclerView.LayoutManager layoutManager;
     RecyclerView recyclerView;
     String tripid;
+    String clickable;
     HistoryNoteAdapter adapter;
     LinearLayout noNotesLayouts;
     public static final String CLICKABLE = "CLICKABLE";
@@ -53,14 +54,14 @@ public class NoteDialogActivity extends AppCompatActivity implements HistoryNote
         noNotesLayouts = findViewById(R.id.no_notes_layout);
 
         tripid = getIntent().getStringExtra(NoteActivity.TRIP_ID_KEY);
-
+        clickable = getIntent().getStringExtra(CLICKABLE);
         presenterInterface = new HistoryNotesPresenter(this);
         presenterInterface.getAllNotes(tripid);
 
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(getIntent().getStringExtra(CLICKABLE) != null){
+                if(clickable != null){
                     Intent serviceIntent = new Intent(NoteDialogActivity.this, HeadService.class);
                     serviceIntent.putExtra(NoteActivity.TRIP_ID_KEY,tripid);
                     startService(serviceIntent);
@@ -93,4 +94,13 @@ public class NoteDialogActivity extends AppCompatActivity implements HistoryNote
         presenterInterface.updateNoteStaus(noteModel, tripid);
     }
 
+    @Override
+    public void onBackPressed() {
+        if(clickable != null){
+            Intent serviceIntent = new Intent(NoteDialogActivity.this, HeadService.class);
+            serviceIntent.putExtra(NoteActivity.TRIP_ID_KEY,tripid);
+            startService(serviceIntent);
+        }
+        NoteDialogActivity.this.finish();
+    }
 }

@@ -1,13 +1,16 @@
 package iti.intake40.tritra.home;
 
 
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -26,6 +29,7 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -35,6 +39,7 @@ import iti.intake40.tritra.add_trip.AddTripActivity;
 import iti.intake40.tritra.alarm.AlarmActivity;
 import iti.intake40.tritra.alarm.AlarmReceiver;
 import iti.intake40.tritra.floating_head.HeadService;
+import iti.intake40.tritra.login.LoginActivity;
 import iti.intake40.tritra.model.Database;
 import iti.intake40.tritra.model.TripModel;
 import iti.intake40.tritra.notes.NoteActivity;
@@ -51,8 +56,6 @@ public class HomeFragment extends Fragment implements HomeContract.ViewInterface
     RecyclerView recyclerView;
     String userId;
     public static final String USERID = "USERID";
-
-
 
     public HomeFragment() {
         // Required empty public constructor
@@ -104,6 +107,38 @@ public class HomeFragment extends Fragment implements HomeContract.ViewInterface
         recyclerView.setAdapter(adapter);
         recyclerView.setVisibility(View.VISIBLE);
         noTripsLayout.setVisibility(View.INVISIBLE);
+
+        if(LoginActivity.FROM_LOGIN.equals(getActivity().getIntent().getStringExtra(LoginActivity.FROM_LOGIN))){
+            for(TripModel trip : tripsList){
+                String[] dateParams = trip.getDate().split("-");
+                String[]timeParams = trip.getTime().split(":");
+                int tripYear = Integer.parseInt(dateParams[0]);
+                int tripMonth = Integer.parseInt(dateParams[1]);
+                int tripDay = Integer.parseInt(dateParams[2]);
+                int tripHour = Integer.parseInt(timeParams[0]);
+                int tripMinute = Integer.parseInt(timeParams[1]);
+                int alarmPendingIntentRequestCode = Integer.parseInt(dateParams[1]+dateParams[2]+timeParams[0]+timeParams[1]);
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(tripYear, tripMonth, tripDay, tripHour, tripMinute
+                        , 0);
+                AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(getContext().ALARM_SERVICE);
+                Intent tripAlarmIntent = new Intent(getContext(), AlarmActivity.class);
+                tripAlarmIntent.putExtra(HomeFragment.USERID,userId);
+                tripAlarmIntent.putExtra(AddTripActivity.TRIP_ID,trip.getId());
+                tripAlarmIntent.putExtra(AddTripActivity.TRIP_NAME,trip.getName());
+                tripAlarmIntent.putExtra(AddTripActivity.TRIP_START_POINT,trip.getStartPoint());
+                tripAlarmIntent.putExtra(AddTripActivity.TRIP_END_POINT,trip.getEndPoint());
+                tripAlarmIntent.putExtra(AddTripActivity.ALARM_ID,alarmPendingIntentRequestCode);
+                PendingIntent tripAlarmPendingIntent = PendingIntent.getActivity(getContext(), alarmPendingIntentRequestCode, tripAlarmIntent, PendingIntent.FLAG_ONE_SHOT);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    //Android kitkat or above
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),tripAlarmPendingIntent);
+                }else{
+                    //Android below kitkat
+                    alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),tripAlarmPendingIntent);
+                }
+            }
+        }
     }
 
     @Override
@@ -153,6 +188,7 @@ public class HomeFragment extends Fragment implements HomeContract.ViewInterface
         Intent mapsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr=" + trip.getEndPoint()));
         mapsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(mapsIntent);
+        cancelTripAlarm(trip);
         if(trip.getType().equals(TripModel.TYPE.ROUND_TRIP) && trip.getStatus().equals(TripModel.STATUS.UPCOMING )){
             trip.setStatus(TripModel.STATUS.GO);
             presenter.createRuturnTrip(trip,userId);
@@ -160,7 +196,10 @@ public class HomeFragment extends Fragment implements HomeContract.ViewInterface
             trip.setStatus(TripModel.STATUS.DONE);
             presenter.moveTripToHistory(trip,userId);
         }
-        cancelTripAlarm(trip);
+        if(isFloatingServiceRunning(HeadService.class)){
+            Intent closeServiceIntent = new Intent(getContext(), HeadService.class);
+            getContext().stopService(closeServiceIntent);
+        }
         Intent serviceIntent = new Intent(getContext(), HeadService.class);
         serviceIntent.putExtra(NoteActivity.TRIP_ID_KEY,trip.getId());
         getActivity().startService(serviceIntent);
@@ -211,6 +250,16 @@ public class HomeFragment extends Fragment implements HomeContract.ViewInterface
         alarmManager.cancel(cancelAlarmPendingIntent);
         NotificationManager manager = (NotificationManager) getContext().getSystemService(getContext().NOTIFICATION_SERVICE);
         manager.cancel(alarmPendingIntentRequestCode);
+    }
+
+    private boolean isFloatingServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getContext().getSystemService(getContext().ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

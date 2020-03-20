@@ -1,10 +1,14 @@
 package iti.intake40.tritra.navigation;
 
+import android.app.AlarmManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import android.provider.ContactsContract;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -27,19 +31,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import iti.intake40.tritra.MainActivity;
 import iti.intake40.tritra.R;
+import iti.intake40.tritra.alarm.AlarmReceiver;
 import iti.intake40.tritra.history.HistoryFragment;
 import iti.intake40.tritra.home.HomeFragment;
 import iti.intake40.tritra.login.LoginActivity;
+import iti.intake40.tritra.model.Database;
+import iti.intake40.tritra.model.TripModel;
+import iti.intake40.tritra.model.UserTripsInterface;
 
-public class NavigationDraw extends AppCompatActivity  {
+public class NavigationDraw extends AppCompatActivity implements UserTripsInterface {
     public static final String EMAil = "EMAIL";
     String email;
     private AppBarConfiguration mAppBarConfiguration;
     Toolbar toolbar;
     TextView toolbarTitle;
     Button map;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +67,7 @@ public class NavigationDraw extends AppCompatActivity  {
 
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        Intent intent = getIntent();
+        intent = getIntent();
 
          email=intent.getStringExtra(EMAil);
 
@@ -107,6 +118,7 @@ public class NavigationDraw extends AppCompatActivity  {
 
 
     public void logout(){
+        getTrips();
         LoginManager.getInstance().logOut();
         FirebaseAuth.getInstance().signOut();
         SharedPreferences mPrefs = getSharedPreferences("myAppPrefs", Context.MODE_PRIVATE);
@@ -115,5 +127,31 @@ public class NavigationDraw extends AppCompatActivity  {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
+    }
+
+    private void getTrips(){
+        Database.getInstance().getTripsForUser(intent.getStringExtra(HomeFragment.USERID),this);
+    }
+
+    public void cancelTripAlarm(TripModel trip){
+        String[] dateParams = trip.getDate().split("-");
+        String[]timeParams = trip.getTime().split(":");
+        int alarmPendingIntentRequestCode = Integer.parseInt(dateParams[1]+dateParams[2]+timeParams[0]+timeParams[1]);
+        AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(getApplicationContext().ALARM_SERVICE);
+        Intent cancelAlarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        PendingIntent cancelAlarmPendingIntent = PendingIntent.getBroadcast(getApplicationContext(),
+                alarmPendingIntentRequestCode,
+                cancelAlarmIntent,
+                PendingIntent.FLAG_ONE_SHOT);
+        alarmManager.cancel(cancelAlarmPendingIntent);
+        NotificationManager manager = (NotificationManager) getApplicationContext().getSystemService(getApplicationContext().NOTIFICATION_SERVICE);
+        manager.cancel(alarmPendingIntentRequestCode);
+    }
+
+    @Override
+    public void setTrips(List<TripModel> trips) {
+        for(TripModel trip : trips){
+            cancelTripAlarm(trip);
+        }
     }
 }

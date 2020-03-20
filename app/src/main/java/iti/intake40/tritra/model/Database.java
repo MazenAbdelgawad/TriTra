@@ -75,7 +75,7 @@ public class Database {
         System.out.println("remove Trip = "+tripId);
     }
 
-    public void getTripsForUser(String userId, final HomeContract.PresenterInterface homePresnter){
+    public void getTripsForUser(String userId, final UserTripsInterface presenter){
 
         dbReference.getReference("trip").child(userId).addValueEventListener(new ValueEventListener() {
             @Override
@@ -85,13 +85,13 @@ public class Database {
                     TripModel trip =tripsnapshot.getValue(TripModel.class);
                     tripList.add(trip);
                 }
-                homePresnter.setTrips(tripList);
+                presenter.setTrips(tripList);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 System.out.printf("onCancelled-DatabaseError");
-                homePresnter.setTrips(new ArrayList<TripModel>());
+                presenter.setTrips(new ArrayList<TripModel>());
             }
         });
         //homePresnter.setTrips(new ArrayList<TripModel>());

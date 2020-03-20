@@ -2,6 +2,7 @@ package iti.intake40.tritra.login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
@@ -54,6 +55,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     FirebaseDatabase database ;
     DatabaseReference myRef ;
     public static final String MYPREF="myAppPrefs";
+    public static final String FROM_LOGIN = "fromlogin";
     SharedPreferences share;
     @Override
     protected void onStart() {
@@ -234,6 +236,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         Intent intent=new Intent(LoginActivity.this, NavigationDraw.class);
         intent.putExtra(HomeFragment.USERID,id);
         intent.putExtra(NavigationDraw.EMAil,s);
+        intent.putExtra(FROM_LOGIN,FROM_LOGIN);
         startActivity(intent);
         finish();
     }
