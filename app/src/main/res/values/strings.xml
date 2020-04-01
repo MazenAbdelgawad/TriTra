@@ -70,7 +70,7 @@
     <string name="password_is_required">password is required</string>
     <string name="email_is_required">email is required</string>
     <string name="password_character"><![CDATA[password must be >= 6 characters]]></string>
-    <string name="check_network_connection">checknetworkconnection</string>
+    <string name="check_network_connection">check network connection</string>
     <string name="username_and_password_doesnot_matches">username and password doesn\'t matches</string>
     <string name="user_logined_successfully">user logined successfully</string>
     <string name="user_already_exist">user already exist</string>
@@ -79,5 +79,8 @@
     <string name="name_is_required">name is required</string>
     <string name="fill_empty_field">fill empty field</string>
     <string name="add_note">add note...</string>
+    <string name="invalid_email">Invalid email address</string>
+    <string name="fb_reject_request">Your Request is rejected by facebook</string>
+    <string name="enter_email_pass_to_login">Enter your email and password to login</string>
     <!--end Zeyad-->
 </resources>

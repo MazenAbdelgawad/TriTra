@@ -77,7 +77,8 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".home.HomeActivity" />
         <activity android:name=".signup.SignUp" />
-        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".login.LoginActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".Splash"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>

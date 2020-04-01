@@ -109,8 +109,7 @@ public class HomeFragment extends Fragment implements HomeContract.ViewInterface
         recyclerView.setAdapter(adapter);
         recyclerView.setVisibility(View.VISIBLE);
         noTripsLayout.setVisibility(View.INVISIBLE);
-
-        if(LoginActivity.FROM_LOGIN.equals(getActivity().getIntent().getStringExtra(LoginActivity.FROM_LOGIN))){
+        if(getActivity()!= null && LoginActivity.FROM_LOGIN.equals(getActivity().getIntent().getStringExtra(LoginActivity.FROM_LOGIN))){
             for(TripModel trip : tripsList){
                 String[] dateParams = trip.getDate().split("-");
                 String[]timeParams = trip.getTime().split(":");

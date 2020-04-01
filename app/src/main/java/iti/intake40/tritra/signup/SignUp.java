@@ -81,7 +81,7 @@ public class SignUp extends AppCompatActivity implements SignupContract.ViewInte
         String confirm_password_str = confirm_password.getText().toString().trim();
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         if (!(email_str.matches(emailPattern))) {
-            email.setError("Invalid email address");
+            email.setError(getResources().getString(R.string.invalid_email));
             return;
 
         }

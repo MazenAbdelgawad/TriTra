@@ -29,6 +29,7 @@ SignupContract.ViewInterface viewInterface;
            public void onComplete(@NonNull Task<AuthResult> task) {
                if(task.isSuccessful()){
                    viewInterface.displayMessage(viewInterface.getMyConttext().getResources().getString(R.string.user_created_successfully));
+                   viewInterface.displayMessage(viewInterface.getMyConttext().getResources().getString(R.string.enter_email_pass_to_login));
                   // startActivity(new Intent(getApplicationContext(), MainActivity.class));
                    user.setId(mAuth.getCurrentUser().getUid());
                    Database.getInstance().addUser(user);

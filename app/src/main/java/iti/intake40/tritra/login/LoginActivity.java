@@ -139,8 +139,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                displayMessage("AWATEF LOGGED");
-                Log.d("FACE", "facebook:onSuccess:" + loginResult);
+                //displayMessage("AWATEF LOGGED");
+                Log.d("FACE", "facebook:onSuccess:");
 //                database = FirebaseDatabase.getInstance();
 //                myRef = database.getReference("users");
                 handleFacebookAccessToken(loginResult.getAccessToken());
@@ -148,14 +148,14 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
             @Override
             public void onCancel() {
-                displayMessage("AWATEF CANCEL");
-                Log.d("FACE", "facebook:onCancel");
+                displayMessage(getResources().getString(R.string.fb_reject_request));
+                Log.d("FACE", "facebook:onCancel" );
                 // ...
             }
 
             @Override
             public void onError(FacebookException error) {
-                displayMessage("AWATEF ERROR");
+                displayMessage(getResources().getString(R.string.check_network_connection));
                 Log.d("FACE", "facebook:onError", error);
                 // ...
             }

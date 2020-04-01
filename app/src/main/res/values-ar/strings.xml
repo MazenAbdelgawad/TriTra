@@ -78,7 +78,10 @@
     <string name="user_created_successfully">تم تسجيل الحساب بنجاح</string>
     <string name="password_doesnot_match">الرقم السري غير متطابق</string>
     <string name="name_is_required">الاسم مطلوب*</string>
-    <string name="fill_empty_field">الملاحظه لا يمكن ان تكون فارغه</string>
+    <string name="fill_empty_field">قم بملئ الحقل الفارغ</string>
     <string name="add_note">اضف ملاحظه...</string>
+    <string name="enter_email_pass_to_login">ادخل الإميل و الباسورد للدخول للتطبيق</string>
+    <string name="fb_reject_request">تم رفض طلبك من قبل فيس بوك</string>
+    <string name="invalid_email">بريد إلكتروني غير صحيح</string>
     <!--end Zeyad-->
 </resources>
